@@ -1,33 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './component/Login';
+import Signup from './component/Signup';
+import Home from './component/Home';
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  
+  const Stack = createNativeStackNavigator();
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: darkMode ? '#000' : '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: darkMode ? '#fff' : '#000',
 
-    },
-    text: {
-      color: darkMode ? '#fff' : '#000',
-      padding: 10,
-    },
-  });
 
   return (
-    <View style={styles.container}>
-      {/* <Button title="Toggle Dark Mode" onPress={() => setDarkMode(!darkMode)} />  */}
-      <Text style={styles.text}> Welcome to our App!</Text>
-      <StatusBar style={darkMode ? 'light' : 'dark'} />
-      
-      <Login darkMode={darkMode} />
-    </View>
+
+    
+    <NavigationContainer>
+    <Stack.Navigator>
+     
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="Home" component={Home} />
+    
+    </Stack.Navigator>
+  </NavigationContainer>
+
+
+
   );
 }

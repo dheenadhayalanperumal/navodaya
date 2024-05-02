@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Button, TextInput, View, Image } from "react-native";
-
+import { StyleSheet, Button, TextInput, View, Image,Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from 'react-native';
 
 const Logo = require("../Image/Logo.png");
 
 export default function Login() {
- 
+  const navigation = useNavigation();
   const [data, setData] = useState("");
   const [password, setPassword] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -15,38 +16,66 @@ export default function Login() {
   const handleBlur = () => setIsFocused(false);
   const handleBlur1 = () => setIsFocused1(false);
 
+  const handleLogin = () => {
+    fetch("https://dummyjson.com/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: data,
+        password: password,
+        expiresInMins: 30, // optional, defaults to 60
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        
+          // replace this with the actual condition for a successful login
+          navigation.navigate("Home");
+        
+      })
+      .catch(console.error);
+  };
+
   return (
     <View style={styles.container}>
-      <Image style={styles.Logo} source={Logo} />
-      <TextInput
-        style={isFocused ? styles.focusedText : styles.text}
-        placeholder="Enter your ID"
-        keyboardType="numeric"
-        onChangeText={setData}
-        numberOfLines={1}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
-      <TextInput
-        style={isFocused1 ? styles.focusedText : styles.text}
-        placeholder="Enter the Password"
-        secureTextEntry
-        onChangeText={setPassword}
-        numberOfLines={1}
-        onFocus={handleFocus1}
-        onBlur={handleBlur1}
-      />
-      <Button
-        title="Login"
-        onPress={() =>
-          console.log(`the user id ${data} and password ${password}`)
-        }
-      />
-    
+      <View>
+        <Image style={styles.Logo} source={Logo} />
+        <TextInput
+          style={isFocused ? styles.focusedText : styles.text}
+          placeholder="Enter your ID"
+          // keyboardType="numeric"
+          onChangeText={setData}
+          numberOfLines={1}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          style={isFocused1 ? styles.focusedText : styles.text}
+          placeholder="Enter the Password"
+          secureTextEntry
+          onChangeText={setPassword}
+          numberOfLines={1}
+          onFocus={handleFocus1}
+          onBlur={handleBlur1}
+        />
+        <Button title="Login" onPress={handleLogin} />
+
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+  <Text style={styles.text}>Don't have an account? Sign up.</Text>
+</TouchableOpacity>
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#000",
+  },
   Logo: {
     width: 100,
     height: 100,
