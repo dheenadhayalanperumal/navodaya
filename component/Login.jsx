@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Button, TextInput, View, Image,Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Logo = require("../Image/Logo.png");
 
@@ -16,26 +17,29 @@ export default function Login() {
   const handleBlur = () => setIsFocused(false);
   const handleBlur1 = () => setIsFocused1(false);
 
-  const handleLogin = () => {
-    fetch("https://dummyjson.com/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: data,
-        password: password,
-        expiresInMins: 30, // optional, defaults to 60
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        
-          // replace this with the actual condition for a successful login
-          navigation.navigate("Home");
-        
-      })
-      .catch(console.error);
+  const handleLogin = async () => { // Add async here
+    try {
+      const response = await fetch("https://dummyjson.com/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: data,
+          password: password,
+          expiresInMins: 30, // optional, defaults to 60
+        }),
+      });
+  
+      const data = await response.json();
+      console.log(data);
+      await AsyncStorage.setItem('isLoggedIn', '1');
+      
+      // replace this with the actual condition for a successful login
+      navigation.navigate("Home");
+    } catch (error) {
+      console.error(error);
+    }
   };
+
 
   return (
     <View style={styles.container}>
