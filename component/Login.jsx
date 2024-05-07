@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Button, TextInput, View, Image,Text } from "react-native";
+import { StyleSheet, Button, TextInput, View, Image,Text ,TouchableWithoutFeedback,Keyboard} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,12 +42,14 @@ export default function Login() {
 
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
       <View>
         <Image style={styles.Logo} source={Logo} />
         <TextInput
           style={isFocused ? styles.focusedText : styles.text}
           placeholder="Enter your ID"
+          placeholderTextColor="#fff" 
           // keyboardType="numeric"
           onChangeText={setData}
           numberOfLines={1}
@@ -57,50 +59,77 @@ export default function Login() {
         <TextInput
           style={isFocused1 ? styles.focusedText : styles.text}
           placeholder="Enter the Password"
+          placeholderTextColor="#fff" 
           secureTextEntry
           onChangeText={setPassword}
           numberOfLines={1}
           onFocus={handleFocus1}
           onBlur={handleBlur1}
         />
-        <Button title="Login" onPress={handleLogin} />
-
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-  <Text style={styles.text}>Don't have an account? Sign up.</Text>
+      <TouchableOpacity style={styles.Button} onPress={handleLogin}>
+  <Text style={styles.ButtonText}>Login</Text>
 </TouchableOpacity>
+
+        {/* <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+  <Text style={styles.text}>Don't have an account? Sign up.</Text>
+</TouchableOpacity> */}
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#A20A3A",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent:'space-around'
+  },
+  Button: {
     color: "#000",
+    backgroundColor: "#FFAA10",
+    borderWidth: 1,
+    borderColor: "#fff",
+    borderRadius: 5,
+    width: 296,
+    height: 43,
+    padding: 10,
+    marginTop: 10,
+    textAlign: "center",
+  },
+  ButtonText:{
+    color:"#000",
+    textAlign:"center",
+    fontSize:16,
   },
   Logo: {
-    width: 100,
-    height: 100,
+    width: 234,
+    height: 217,
     resizeMode: "contain",
     alignSelf: "center",
+    marginBottom:50,
   },
   text: {
     marginTop: 10,
     marginBottom: 10,
-    color: "#000",
+    color: "#FFF",
     fontSize: 15,
-    borderBottomWidth: 0.5,
-    borderBottomColor: "#000",
+    borderWidth: 0.5,
+    borderColor: "#fff",
+    height:43,
+    width: 296,
+    padding: 10,
+
   },
   focusedText: {
     marginTop: 10,
     marginBottom: 10,
-    color: "#000",
+    height:43,
+    width: 296,
+    color: "#fff",
     fontSize: 15,
-    borderBottomWidth: 2, // Increase border width
-    borderBottomColor: "#000",
+    borderWidth: 2,
+    borderColor:"#fff",   
     Animation: "fadeIn 0.5s",
   },
 });
