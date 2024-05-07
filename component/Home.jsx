@@ -165,7 +165,7 @@ const Home = ({ navigation }) => {
       </View>
 
       
-      <ScrollView contentContainerStyle={styles.disp}>
+      <ScrollView contentContainerStyle={styles.disp} showsVerticalScrollIndicator={false} >
       {chitdetails.map((item) => (
         <Product key={item.id} data={item} />
       ))}
