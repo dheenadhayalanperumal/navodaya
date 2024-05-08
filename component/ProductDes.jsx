@@ -1,16 +1,23 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, } from 'react-native';
+import { View, Text, Image, StyleSheet,TextInput,TouchableOpacity} from 'react-native';
 import moment from 'moment';
+import { useState } from 'react';
+
+import { RadioButton } from 'react-native-paper';
+const QR = require("../Image/QR.png");
+
 
 const ProductDes = ({ route }) => {
   const { product } = route.params;
 
 
-  console.log('ChitStartdate:', product.ChitStartdate);
+  // console.log('ChitStartdate:', product.ChitStartdate);
   const startDate = moment(product.ChitStartdate, 'YYYY/DD/MM');
-  console.log('startDate:', startDate);
+  // console.log('startDate:', startDate);
   const today = moment();
   const daysTillToday = today.diff(startDate, 'days');
+  const [isCashSelected, setCashSelection] = useState(false);
+  const [isUPISelected, setUpiSelection] = useState(false);
 
   
 
@@ -40,10 +47,59 @@ const ProductDes = ({ route }) => {
           <Text style={styles.chitbasetext}>{product.DailyPay} per day</Text>
         </View>
       </View>
-        <View style={styles.container}>
-            <Text style={styles.text}>Chit End Date: {product.ChitEnddate}</Text>
-            <Text style={styles.text}>Chit Status: {product.Chitstatus}</Text>
-        </View>
+        <View style={styles.PaymentBoxHead}>
+          <View style={styles.PaymentBox}>
+            <Text style={styles.datatext}>Paid Amount</Text>
+            <Text style={styles.text}>INR 70000</Text>
+            </View>
+            <View style={styles.PaymentBox}>
+            <Text style={styles.datatext}>Remaining Amount</Text>
+            <Text style={styles.text}>INR 30000</Text>
+            </View>
+</View>
+<View style={styles.RouteText}>
+      <Text style={styles.text1}>Payment Option</Text>
+      </View>
+      <View style={styles.CashHeading}>
+  <Text style={styles.text}>Cash</Text>
+  <RadioButton
+    value="cash"
+    status={ isCashSelected ? 'checked' : 'unchecked' }
+    onPress={() => {
+      setCashSelection(true);
+      setUpiSelection(false);
+    }}
+  />
+  <Text style={styles.text}>UPI</Text>
+  <RadioButton
+    value="upi"
+    status={ isUPISelected ? 'checked' : 'unchecked' }
+    onPress={() => {
+      setUpiSelection(true);
+      setCashSelection(false);
+    }}
+  />
+
+</View>
+<View style={styles.Collect}>
+  <View>
+  {isUPISelected && <Image style={styles.Image} source={QR} />}
+  </View>
+  <View style={styles.SearchInput}>
+        <TextInput style={styles.Searchtext} placeholder="Enter the Amount"/>
+
+        <TouchableOpacity
+          style={styles.SearchButton}
+          onPress={() => alert("Search")}
+        >
+          <Text style={styles.ButtonText}>{product.Chitstatus}</Text>
+        </TouchableOpacity>
+      </View>
+
+  
+
+
+</View>
 
 
     </View>
@@ -57,6 +113,25 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
       },
+      CashHeading: {
+        height:48,
+        width: 360,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingLeft: 16,
+        paddingRight: 16,
+        marginTop: 12,
+      },
+      Image: {
+        width: 150,
+        height: 150,
+        resizeMode: "contain",
+      },
+
+      checkbox: {
+        alignSelf: "center",
+      },
     container: {
         width: 328, // Increase width
         height: 156, // Increase height
@@ -68,9 +143,82 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 5,
     },
+    SearchInput: {
+      flexDirection: "row",
+      height: 41,
+      width: "100%",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 16,
+    },
+    Searchtext: {
+      height: 41,
+      width: 233,
+      borderColor: "gray",
+      borderWidth: 1,
+      padding: 10,
+      borderRadius:5,
+      marginLeft: 16,
+    },
+    SearchButton: {
+      height: 41,
+      width: 79,
+      backgroundColor: "#FFAA10",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 5,
+      margin: 16,
+    },
+    ButtonText: {
+      color: "#000",
+      textAlign: "center",
+      fontSize: 16,
+     
+    },
+    text1: {
+      fontSize: 20,
+      color: "#A20A3A",
+      textAlign:"left",
+      paddingLeft:16,
+      marginLeft: 16,
+  
+    },
+     RouteText:{
+    width: '100%',
+    height: 43,
+borderRadius: 5,
+    backgroundColor: "#F4F6F9",
+    alignItems: "left",
+    justifyContent: "center",
+    marginTop: 12,
+  
+  },
+
+    PaymentBoxHead: {
+      width: 328, // Increase width
+      height: 70, // Increase height
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: 10,
+    },
+    PaymentBox: {
+        width: 156, // Increase width
+        height: 70, // Increase height
+        borderColor: '#E6E8F0',
+        borderWidth: 0.5,
+        backgroundColor: '#F4F6F9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        flexDirection: 'column',
+
+    },
     text: {
         fontSize: 15,
         color: '#4A516D',
+        fontWeight: 'bold'
+        
         
     },
     logo: {
@@ -111,6 +259,10 @@ const styles = StyleSheet.create({
         backgroundColor:"#A20A3A",
         borderRadius: 5,
       
+    },
+    Collect:{
+      alignItems: "center",
+      justifyContent: "center",
     },
     Buttontext:{
         color: "#A20A3A",

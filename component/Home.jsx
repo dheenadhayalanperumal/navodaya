@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Product from "./Product";
 
-const Logo = require("../Image/Logo.png");
+const Logo = require("../Image/Logo1.png");
 
 const chitdetails=[{Userid:1234567892,UserName:"dheena", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
 {Userid:2234567892,UserName:"siva", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
@@ -166,8 +166,8 @@ const Home = ({ navigation }) => {
 
       
       <ScrollView contentContainerStyle={styles.disp} showsVerticalScrollIndicator={false} >
-      {chitdetails.map((item) => (
-        <Product key={item.id} data={item} />
+      {chitdetails.map((item,index) => (
+        <Product key={index} data={item} />
       ))}
     </ScrollView>
     </View>

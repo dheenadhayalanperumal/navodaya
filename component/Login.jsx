@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 const Logo = require("../Image/Logo.png");
 
 export default function Login() {
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     color: "#000",
     backgroundColor: "#FFAA10",
     borderWidth: 1,
-    borderColor: "#fff",
+    borderColor: "#FFAA10",
     borderRadius: 5,
     width: 296,
     height: 43,
