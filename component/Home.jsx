@@ -113,6 +113,7 @@ const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  navigation.navigate('History', { product: chitdetails });
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")

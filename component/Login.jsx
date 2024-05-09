@@ -35,7 +35,7 @@ export default function Login() {
       await AsyncStorage.setItem('isLoggedIn', '1');
       
       // replace this with the actual condition for a successful login
-      navigation.navigate("Home");
+      navigation.navigate("Home1");
     } catch (error) {
       console.error(error);
     }
