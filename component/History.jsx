@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet,ScrollView ,Image,TouchableOpacity} from "react-native";
+import Collection from "./Collection";
+import { Calendar,CalendarList } from 'react-native-calendars';
 import { useState } from "react";
-import Product from "./Product";
 const Logo = require("../Image/Logo1.png");
 const but = require("../Image/EmButton.png");
 import { useNavigation } from "@react-navigation/native";
@@ -37,6 +38,8 @@ const History = ({ route}) => {
         </TouchableOpacity>
         </View>
 
+      
+
              <View style={styles.PaymentBoxHead}>
         <View style={styles.PaymentBox}>
           <Text style={styles.datatext}>Total Amount</Text>
@@ -50,7 +53,7 @@ const History = ({ route}) => {
 
           <ScrollView contentContainerStyle={styles.disp} showsVerticalScrollIndicator={false} >
       {product.map((item,index) => (
-        <Product key={index} data={item} />
+        <Collection key={index} data={item} />
       ))}
     </ScrollView>
         </View>
