@@ -10,15 +10,14 @@ import {
   Keyboard,
   ScrollView,
   TouchableWithoutFeedback,
+  Button
 } from "react-native";
-import { RadioButton } from "react-native-paper";
-
+import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from "@react-navigation/native";
 
-const AddCustomer1 = () => {
+const ShopAddress = () => {
   const navigation = useNavigation();
-  const [isaddressSelected, setaddressSelection] = useState(false);
-  const [LocalAddress, setLocalAddress] = useState({
+  const [ShopAddress, setShopAddress] = useState({
     doorno: "",
     street: "",
     landmark: "",
@@ -26,156 +25,102 @@ const AddCustomer1 = () => {
     city: "",
     pincode: "",
     state: "",
+    shopPhoto: "",
   });
-  const [PermanentAddress, setPermanentAddress] = useState({
-    doorno: "",
-    street: "",
-    landmark: "",
-    area: "",
-    city: "",
-    pincode: "",
-    state: "",
-  });
+  const takePicture = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      // aspect: [4, 3],
+      quality: 1,
+    });
+  
+    console.log(result);
+  
+    if (!result.cancelled) {
+        setShopAddress(prevState => ({ ...prevState, shopPhoto: result.assets[0].uri }));
+      console.log("Updated formData:", ShopAddress);
+    }
+  };
+
 
   const handleChangeText = (name, value) => {
     setLocalAddress({ ...LocalAddress, [name]: value });
   };
 
   const handleSave = () => {
-    // alert("Data Saved", LocalAddress);
-    console.log(PermanentAddress);
-    navigation.navigate("ShopAddress");
+    alert("Data Saved", ShopAddress);
+    console.log(ShopAddress);
     // console.log(formData);
   };
 
   const handlePrevious = () => {
-    navigation.navigate("AddCustomer");
+    navigation.navigate("AddCustomer1");
   };
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.Local}>
         <View style={styles.Lname}>
-          <Text style={styles.textName}>Local Address</Text>
+          <Text style={styles.textName}>Shop Address</Text>
         </View>
 
         <View style={styles.address}>
           <Text style={styles.text}>Door No</Text>
           <TextInput
             style={styles.input}
-            value={LocalAddress.doorno}
+            value={ShopAddress.doorno}
             onChangeText={(text) => handleChangeText("doorno", text)}
           />
 
           <Text style={styles.text}>Street</Text>
           <TextInput
             style={styles.input}
-            value={LocalAddress.street}
+            value={ShopAddress.street}
             onChangeText={(text) => handleChangeText("street", text)}
           />
           <Text style={styles.text}>Land Mark</Text>
           <TextInput
             style={styles.input}
-            value={LocalAddress.landmark}
+            value={ShopAddress.landmark}
             onChangeText={(text) => handleChangeText("landmark", text)}
           />
           <Text style={styles.text}>Area</Text>
           <TextInput
             style={styles.input}
-            value={LocalAddress.area}
+            value={ShopAddress.area}
             onChangeText={(text) => handleChangeText("area", text)}
           />
 
           <Text style={styles.text}>City</Text>
           <TextInput
             style={styles.input}
-            value={LocalAddress.city}
+            value={ShopAddress.city}
             onChangeText={(text) => handleChangeText("city", text)}
           />
           <Text style={styles.text}>Pincode</Text>
           <TextInput
             style={styles.input}
-            value={LocalAddress.pincode}
+            value={ShopAddress.pincode}
             onChangeText={(text) => handleChangeText("pincode", text)}
           />
 
           <Text style={styles.text}>State</Text>
           <TextInput
             style={styles.input}
-            value={LocalAddress.state}
+            value={ShopAddress.state}
             onChangeText={(text) => handleChangeText("state", text)}
           />
-        </View>
 
-        <View style={styles.Lname}>
-          <Text style={styles.textName}>Perment Address</Text>
-        </View>
-        <View style={styles.perment}>
-          <Text style={styles.text}>Same as Chennai Address</Text>
-          <RadioButton.Android
-            value="address"
-            status={isaddressSelected ? "checked" : "unchecked"}
-            onPress={() => {
-              setaddressSelection(true);
-            
-                setPermanentAddress({ ...LocalAddress });
-             
-            }}
-          />
-        </View>
-        <View style={styles.address}>
-          <Text style={styles.text}>Door No</Text>
-          <TextInput
-            style={styles.input}
-            value={PermanentAddress.doorno}
-            onChangeText={(text) => handleChangeText("doorno", text)}
-            disabled={isaddressSelected}
-          />
+          <Text style={styles.text}>Shop Photo</Text>
 
-          <Text style={styles.text}>Street</Text>
-          <TextInput
-            style={styles.input}
-            value={PermanentAddress.street}
-            onChangeText={(text) => handleChangeText("street", text)}
-            disabled={isaddressSelected}
-          />
-          <Text style={styles.text}>Land Mark</Text>
-          <TextInput
-            style={styles.input}
-            value={PermanentAddress.landmark}
-            onChangeText={(text) => handleChangeText("landmark", text)}
-            disabled={isaddressSelected}
-          />
-          <Text style={styles.text}>Area</Text>
-          <TextInput
-            style={styles.input}
-            value={PermanentAddress.area}
-            onChangeText={(text) => handleChangeText("area", text)}
-            disabled={isaddressSelected}
-          />
-
-          <Text style={styles.text}>City</Text>
-          <TextInput
-            style={styles.input}
-            value={PermanentAddress.city}
-            onChangeText={(text) => handleChangeText("city", text)}
-            disabled={isaddressSelected}
-          />
-          <Text style={styles.text}>Pincode</Text>
-          <TextInput
-            style={styles.input}
-            value={PermanentAddress.pincode}
-            onChangeText={(text) => handleChangeText("pincode", text)}
-            disabled={isaddressSelected}
-          />
-
-          <Text style={styles.text}>State</Text>
-          <TextInput
-            style={styles.input}
-            value={PermanentAddress.state}
-            onChangeText={(text) => handleChangeText("state", text)}
-            disabled={isaddressSelected}
-          />
+          <View style={styles.camera}>
+            <Button
+              style={styles.camBut}
+              title="Take Picture"
+              onPress={takePicture}
+            />
+          </View>
         </View>
 
         <View style={styles.buttonarrange}>
@@ -256,6 +201,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 16,
   },
+  camBut: {
+    backgroundColor: "#E6E8F0",
+    padding: 10,
+    alignItems: "center",
+    borderRadius: 5,
+},
+    camera: {
+        alignItems:"flex-start",
+        padding:5,
+        borderWidth:1,
+        borderColor:"#E6E8F0",
+        borderRadius:5,
+    },
+   
+
 });
 
-export default AddCustomer1;
+export default ShopAddress;

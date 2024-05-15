@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#A20A3A",
     textAlign:"left",
-    paddingLeft:16,
+    paddingLeft:32,
 
   },
   logo: {
@@ -113,7 +113,6 @@ const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-   navigation.navigate('History', { product: chitdetails });
 
 
   return (

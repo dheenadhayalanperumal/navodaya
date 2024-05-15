@@ -12,6 +12,7 @@ import Password from './component/Password';
 import Collection from './component/Collection';
 import AddCustomer from './component/AddCustomer';
 import AddCustomer1 from './component/AddCustomer1';
+import ShopAddress from './component/ShopAddress';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -72,6 +73,7 @@ export default function App() {
         <Stack.Screen name="Password" component={Password} />
         <Stack.Screen name="Collection" component={Collection} />
         <Stack.Screen name="AddCustomer1" component={AddCustomer1}/>
+        <Stack.Screen name="ShopAddress" component={ShopAddress}/>
       </Stack.Navigator>
     </NavigationContainer>
    

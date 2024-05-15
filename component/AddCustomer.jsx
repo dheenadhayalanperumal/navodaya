@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -9,14 +9,19 @@ import {
   Keyboard,
     ScrollView,
     TouchableWithoutFeedback,
+    Button
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const Logo = require("../Image/Logo1.png");
 
 const AddCustomer = () => {
     const navigation = useNavigation();
+  
     const [formData, setFormData] = useState({
         customer: "",
         initial: "",
@@ -37,15 +42,38 @@ const AddCustomer = () => {
         brotherName: "",
         sisterName: "",
       });
-  
-      const handleChangeText = (name, value) => {
-        setFormData({ ...formData, [name]: value });
+
+
+     
+      const takePicture = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: false,
+          // aspect: [4, 3],
+          quality: 1,
+        });
+      
+        console.log(result);
+      
+        if (!result.cancelled) {
+          setFormData(prevState => ({ ...prevState, photo: result.assets[0].uri }));
+          console.log("Updated formData:", formData);
+        }
       };
 
-      const handleSave = () => {
-    //   alert("Data Saved",formData);
-      navigation.navigate('AddCustomer1', {formData: formData});
-        // console.log(formData);
+      const handleChangeText = (name, value) => {
+        setFormData(prevState => ({ ...prevState, [name]: value }));
+      };
+
+      const handleSave = async () => {
+        try {
+          await AsyncStorage.setItem('formData', JSON.stringify(formData));
+          navigation.navigate('AddCustomer1');
+          console.log(formData);
+        } catch (e) {
+          // saving error
+          console.error('Error saving data:', e);
+        }
       };
 
 
@@ -54,6 +82,8 @@ const AddCustomer = () => {
         <View style={styles.header}>
         <Image style={styles.logo} source={Logo} />
       </View>
+
+
       <View style={styles.form}>
       <ScrollView contentContainerStyle={{ justifyContent: 'center' }}  showsVerticalScrollIndicator={false}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -167,13 +197,16 @@ const AddCustomer = () => {
                 
             />
 
-<Text style={styles.text}>Photo</Text>
-            <TextInput
-                style={styles.input}
-                value={formData.photo}
-                onChangeText={(text) => handleChangeText("photo", text)}
-             
+
+<Text style={styles.text}>Customer Photo</Text>
+
+<View style={styles.camera}>
+            <Button
+              style={styles.camBut}
+              title="Take Picture"
+              onPress={takePicture}
             />
+          </View>
 
 <Text style={styles.text}>Father's Name</Text>
             <TextInput
@@ -277,6 +310,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 5,
   },
+  button1: {
+    backgroundColor: "#fff",
+    alignItems: "center",
+    borderRadius: 5,
+  },
   buttonText: {
     color: "#fff",
     fontSize: 20,
@@ -291,6 +329,13 @@ const styles = StyleSheet.create({
     color: "#989EB3",
     marginTop: 5,
   },
+  camera: {
+    alignItems:"flex-start",
+    padding:5,
+    borderWidth:1,
+    borderColor:"#E6E8F0",
+    borderRadius:5,
+},
 });
 
 export default AddCustomer;

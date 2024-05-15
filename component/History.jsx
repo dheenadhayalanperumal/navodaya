@@ -7,10 +7,22 @@ const Logo = require("../Image/Logo1.png");
 const but = require("../Image/EmButton.png");
 import { useNavigation } from "@react-navigation/native";
 
+const product=[{Userid:1234567892,UserName:"dheena", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:2234567892,UserName:"siva", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:3234567892,UserName:"kumar", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:4234567892,UserName:"sathish", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:5234567892,UserName:"suresh", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:6234567892,UserName:"kumar", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:7234567892,UserName:"sathish", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:8234567892,UserName:"suresh", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:9234567892,UserName:"kumar", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
+{Userid:10234567892,UserName:"sathish", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"}
+
+];
 
 
-const History = ({ route}) => {
-    const { product } = route.params;
+const History = () => {
+    
     const navigation = useNavigation();
 
     
