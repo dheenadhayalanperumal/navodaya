@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,254 +7,233 @@ import {
   TouchableOpacity,
   TextInput,
   Keyboard,
-    ScrollView,
-    TouchableWithoutFeedback,
-    Button
+  ScrollView,
+  TouchableWithoutFeedback,
+  Button,
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Logo = require("../Image/Logo1.png");
 
 const AddCustomer = () => {
-    const navigation = useNavigation();
-  
-    const [formData, setFormData] = useState({
-        customer: "",
-        initial: "",
-        customerId: "",
-        TKTno: "",
-        mobile: "",
-        chitGroup: "",
-        profession: "",
-        annualIncome: "",
-        dateOfBirth: "",
-        maritalStatus: "",
-        relatives: "",
-        vehicle: "",
-        house: "",
-        photo: "",
-        fatherName: "",
-        motherName: "",
-        brotherName: "",
-        sisterName: "",
-      });
+  const navigation = useNavigation();
 
+  const [formData, setFormData] = useState({
+    customer: "",
+    initial: "",
+    customerId: "",
+    TKTno: "",
+    mobile: "",
+    chitGroup: "",
+    profession: "",
+    annualIncome: "",
+    dateOfBirth: "",
+    maritalStatus: "",
+    relatives: "",
+    vehicle: "",
+    house: "",
+    photo: "",
+    fatherName: "",
+    motherName: "",
+    brotherName: "",
+    sisterName: "",
+  });
 
-     
-      const takePicture = async () => {
-        let result = await ImagePicker.launchCameraAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: false,
-          // aspect: [4, 3],
-          quality: 1,
-        });
-      
-        console.log(result);
-      
-        if (!result.cancelled) {
-          setFormData(prevState => ({ ...prevState, photo: result.assets[0].uri }));
-          console.log("Updated formData:", formData);
-        }
-      };
+  const takePicture = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      // aspect: [4, 3],
+      quality: 1,
+    });
 
-      const handleChangeText = (name, value) => {
-        setFormData(prevState => ({ ...prevState, [name]: value }));
-      };
+    console.log(result);
 
-      const handleSave = async () => {
-        try {
-          await AsyncStorage.setItem('formData', JSON.stringify(formData));
-          navigation.navigate('AddCustomer1');
-          console.log(formData);
-        } catch (e) {
-          // saving error
-          console.error('Error saving data:', e);
-        }
-      };
+    if (!result.cancelled) {
+      setFormData((prevState) => ({
+        ...prevState,
+        photo: result.assets[0].uri,
+      }));
+      console.log("Updated formData:", formData);
+    }
+  };
 
+  const handleChangeText = (name, value) => {
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    try {
+      await AsyncStorage.setItem("formData", JSON.stringify(formData));
+      navigation.navigate("AddCustomer1");
+      console.log(formData);
+    } catch (e) {
+      // saving error
+      console.error("Error saving data:", e);
+    }
+  };
 
   return (
     <View style={styles.container}>
-        <View style={styles.header}>
+      <View style={styles.header}>
         <Image style={styles.logo} source={Logo} />
       </View>
 
-
       <View style={styles.form}>
-      <ScrollView contentContainerStyle={{ justifyContent: 'center' }}  showsVerticalScrollIndicator={false}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View>
-          <Text style={styles.text}>Customer name</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.customer}
-            onChangeText={(text) => handleChangeText("customer", text)}
-           
-          />
+        <ScrollView
+          contentContainerStyle={{ justifyContent: "center" }}
+          showsVerticalScrollIndicator={false}
+        >
+          <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}
+            accessible={false}
+          >
+            <View>
+              <Text style={styles.text}>Customer name</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.customer}
+                onChangeText={(text) => handleChangeText("customer", text)}
+              />
 
-          <Text style={styles.text}>Initial</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.initial}
-            onChangeText={(text) => handleChangeText("initial", text)}
-         
-          />
-          <Text style={styles.text}>Customer ID</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.customerId}
-            onChangeText={(text) => handleChangeText("customerId", text)}
-            
-          />
-            <Text style={styles.text}>TKT No</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.TKTno}
-            onChangeText={(text) => handleChangeText("TKTno", text)}
-            
-          />
+              <Text style={styles.text}>Initial</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.initial}
+                onChangeText={(text) => handleChangeText("initial", text)}
+              />
+              <Text style={styles.text}>Customer ID</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.customerId}
+                onChangeText={(text) => handleChangeText("customerId", text)}
+              />
+              <Text style={styles.text}>TKT No</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.TKTno}
+                onChangeText={(text) => handleChangeText("TKTno", text)}
+              />
 
-<Text style={styles.text}>Mobile Number</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.mobile}
-            onChangeText={(text) =>handleChangeText("mobile", text)}
-            
-          />
-  <Text style={styles.text}>Chit Group</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.chitGroup}
-            onChangeText={(text) => handleChangeText("chitGroup", text)}
-            
-          />
-  <Text style={styles.text}>Profession / Business Owned</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.proffession}
-            onChangeText={(text) => handleChangeText("proffession", text)}
-          
-          />
+              <Text style={styles.text}>Mobile Number</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.mobile}
+                onChangeText={(text) => handleChangeText("mobile", text)}
+              />
+              <Text style={styles.text}>Chit Group</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.chitGroup}
+                onChangeText={(text) => handleChangeText("chitGroup", text)}
+              />
+              <Text style={styles.text}>Profession / Business Owned</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.proffession}
+                onChangeText={(text) => handleChangeText("proffession", text)}
+              />
 
-<Text style={styles.text}>Date of Birth</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.dateofBirth}
-            onChangeText={(text) => handleChangeText("dateofBirth", text)  }
-           
-          />
+              <Text style={styles.text}>Date of Birth</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.dateofBirth}
+                onChangeText={(text) => handleChangeText("dateofBirth", text)}
+              />
 
-<Text style={styles.text}>Annual Income</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.annualIncome}
-            onChangeText={(text) => handleChangeText("annualIncome", text)}
-            
-          />
+              <Text style={styles.text}>Annual Income</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.annualIncome}
+                onChangeText={(text) => handleChangeText("annualIncome", text)}
+              />
 
+              <Text style={styles.text}>Marital Status</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.maritalStatus}
+                onChangeText={(text) => handleChangeText("maritalStatus", text)}
+              />
 
-<Text style={styles.text}>Marital Status</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.maritalStatus}
-            onChangeText={(text) => handleChangeText("maritalStatus", text)}
-           
-          />
-
-<Text style={styles.text}>Relatives name & address</Text>
-            <TextInput
+              <Text style={styles.text}>Relatives name & address</Text>
+              <TextInput
                 style={styles.input}
                 value={formData.relatives}
                 onChangeText={(text) => handleChangeText("relatives", text)}
-              
-            />
+              />
 
-<Text style={styles.text}>Vechicle Owned</Text>
-            <TextInput
+              <Text style={styles.text}>Vechicle Owned</Text>
+              <TextInput
                 style={styles.input}
                 value={formData.vechicle}
                 onChangeText={(text) => handleChangeText("vechicle", text)}
-             
-            />
+              />
 
-<Text style={styles.text}>House Owned</Text>    
-            <TextInput
-                style={styles.input}
-                value={formData.house}
-                onChangeText={(text) =>handleChangeText("house", text)}
-               
-            />
-
-<Text style={styles.text}>Property Owned House/Flat/Land etc</Text>
-            <TextInput
+              <Text style={styles.text}>House Owned</Text>
+              <TextInput
                 style={styles.input}
                 value={formData.house}
                 onChangeText={(text) => handleChangeText("house", text)}
-                
-            />
+              />
 
+              <Text style={styles.text}>
+                Property Owned House/Flat/Land etc
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={formData.house}
+                onChangeText={(text) => handleChangeText("house", text)}
+              />
 
-<Text style={styles.text}>Customer Photo</Text>
+              <Text style={styles.text}>Customer Photo</Text>
 
-<View style={styles.camera}>
-            <Button
-              style={styles.camBut}
-              title="Take Picture"
-              onPress={takePicture}
-            />
-          </View>
+              <View style={styles.camera}>
+                <Button
+                  style={styles.camBut}
+                  title="Take Picture"
+                  onPress={takePicture}
+                />
+              </View>
 
-<Text style={styles.text}>Father's Name</Text>
-            <TextInput
+              <Text style={styles.text}>Father's Name</Text>
+              <TextInput
                 style={styles.input}
                 value={formData.fatherName}
                 onChangeText={(text) => handleChangeText("fatherName", text)}
-               
-            />
+              />
 
-<Text style={styles.text}>Mother's Name</Text>
-            <TextInput
+              <Text style={styles.text}>Mother's Name</Text>
+              <TextInput
                 style={styles.input}
                 value={formData.motherName}
                 onChangeText={(text) => handleChangeText("motherName", text)}
-            
-            />
+              />
 
-<Text style={styles.text}>Brother's Name</Text>
-            <TextInput
+              <Text style={styles.text}>Brother's Name</Text>
+              <TextInput
                 style={styles.input}
                 value={formData.brothername}
                 onChangeText={(text) => handleChangeText("brothername", text)}
-               
-            />
+              />
 
-<Text style={styles.text}>Sister's Name</Text>
-            <TextInput
+              <Text style={styles.text}>Sister's Name</Text>
+              <TextInput
                 style={styles.input}
                 value={formData.sisterName}
                 onChangeText={(text) => handleChangeText("sisterName", text)}
-              
-            />
-
-
-        </View>
-        </TouchableWithoutFeedback>
-        <View>
-          <TouchableOpacity style={styles.button} onPress={handleSave}>
-            <Text style={styles.buttonText}>Save & Next</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.space}>
-    
-    </View>
-
-      </ScrollView >
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          <View>
+            <TouchableOpacity style={styles.button} onPress={handleSave}>
+              <Text style={styles.buttonText}>Save & Next</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.space}></View>
+        </ScrollView>
       </View>
-     
     </View>
   );
 };
@@ -275,9 +254,8 @@ const styles = StyleSheet.create({
     height: 48,
     margintop: 5,
     resizeMode: "contain",
-    alignSelf: "center",
   },
- header: {
+  header: {
     flexDirection: "row",
     justifyContent: "center",
     height: 88,
@@ -330,12 +308,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   camera: {
-    alignItems:"flex-start",
-    padding:5,
-    borderWidth:1,
-    borderColor:"#E6E8F0",
-    borderRadius:5,
-},
+    alignItems: "flex-start",
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#E6E8F0",
+    borderRadius: 5,
+  },
 });
 
 export default AddCustomer;

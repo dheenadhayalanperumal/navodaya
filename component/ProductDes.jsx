@@ -13,8 +13,6 @@ import { useState } from "react";
 import { RadioButton } from "react-native-paper";
 const QR = require("../Image/QR.png");
 
-
-
 const ProductDes = ({ route }) => {
   const { product } = route.params;
 

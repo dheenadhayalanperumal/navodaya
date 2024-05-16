@@ -117,9 +117,8 @@ const AddCustomer1 = () => {
             status={isaddressSelected ? "checked" : "unchecked"}
             onPress={() => {
               setaddressSelection(true);
-            
-                setPermanentAddress({ ...LocalAddress });
-             
+
+              setPermanentAddress({ ...LocalAddress });
             }}
           />
         </View>

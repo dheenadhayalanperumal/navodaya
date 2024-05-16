@@ -15,23 +15,27 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 
-const ShopAddress = () => {
+const AddDocument = () => {
   const navigation = useNavigation();
-  const [ShopAddress, setShopAddress] = useState({
-    doorno: "",
-    street: "",
-    landmark: "",
-    area: "",
-    city: "",
-    pincode: "",
-    state: "",
-    shopPhoto: "",
+  const [OtherDocument, setOtherDocument] = useState({
+    Aadharphoto: "",
+    AadharNumber: "",
+    PanPhoto: "",
+    PanNumber: "",
+    Voterphoto: "",
+    VoterNumber: "",
+    Drivingphoto: "",
+    DrivingNumber: "",
+    Employmentphoto: "",
+    Rationphoto: "",
+    AnyotherIdphoto: "",
+    OtherDocumentsphoto: "",
   });
+
   const takePicture = async () => {
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: false,
-      // aspect: [4, 3],
       quality: 1,
     });
 
@@ -51,71 +55,40 @@ const ShopAddress = () => {
   };
 
   const handleSave = () => {
-    alert("Data Saved", ShopAddress);
-    console.log(ShopAddress);
-    navigation.navigate("OtherDocuments");
+    alert("Data Saved", OtherDocument);
+    console.log(OtherDocument);
     // console.log(formData);
   };
 
   const handlePrevious = () => {
-    navigation.navigate("AddCustomer1");
+    navigation.navigate("ShopAddress");
   };
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.Local}>
         <View style={styles.Lname}>
-          <Text style={styles.textName}>Shop Address</Text>
+          <Text style={styles.textName}>Other Documents Address</Text>
         </View>
 
         <View style={styles.address}>
-          <Text style={styles.text}>Door No</Text>
-          <TextInput
-            style={styles.input}
-            value={ShopAddress.doorno}
-            onChangeText={(text) => handleChangeText("doorno", text)}
-          />
+          <Text style={styles.text}>Adhar card Photo</Text>
 
-          <Text style={styles.text}>Street</Text>
-          <TextInput
-            style={styles.input}
-            value={ShopAddress.street}
-            onChangeText={(text) => handleChangeText("street", text)}
-          />
-          <Text style={styles.text}>Land Mark</Text>
-          <TextInput
-            style={styles.input}
-            value={ShopAddress.landmark}
-            onChangeText={(text) => handleChangeText("landmark", text)}
-          />
-          <Text style={styles.text}>Area</Text>
-          <TextInput
-            style={styles.input}
-            value={ShopAddress.area}
-            onChangeText={(text) => handleChangeText("area", text)}
-          />
+          <View style={styles.camera}>
+            <Button
+              style={styles.camBut}
+              title="Take Picture"
+              onPress={takePicture}
+            />
+          </View>
 
-          <Text style={styles.text}>City</Text>
+          <Text style={styles.text}>Adhar card Number</Text>
           <TextInput
             style={styles.input}
-            value={ShopAddress.city}
-            onChangeText={(text) => handleChangeText("city", text)}
+            value={OtherDocument.AadharNumber}
+            onChangeText={(text) => handleChangeText("AadharNumber", text)}
           />
-          <Text style={styles.text}>Pincode</Text>
-          <TextInput
-            style={styles.input}
-            value={ShopAddress.pincode}
-            onChangeText={(text) => handleChangeText("pincode", text)}
-          />
-
-          <Text style={styles.text}>State</Text>
-          <TextInput
-            style={styles.input}
-            value={ShopAddress.state}
-            onChangeText={(text) => handleChangeText("state", text)}
-          />
-
-          <Text style={styles.text}>Shop Photo</Text>
+          <Text style={styles.text}>Pan card Photo</Text>
 
           <View style={styles.camera}>
             <Button
@@ -219,4 +192,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShopAddress;
+export default AddDocument;

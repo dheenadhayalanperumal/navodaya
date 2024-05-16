@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 import React, { useState } from "react";
 import { Image } from "react-native";
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from "react-native";
 const Logo = require("../Image/Logo.png");
 import { useNavigation } from "@react-navigation/native";
 
@@ -22,36 +22,34 @@ export default function Signup() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: "center",
+      alignItems: "center",
       margin: 10,
     },
     text: {
       borderBottomWidth: 0.5,
-      borderColor: '#000',
+      borderColor: "#000",
       padding: 5,
       margin: 5,
-      width: '80%',
+      width: "80%",
     },
     focusedText: {
       borderBottomWidth: 2,
-      borderColor: '#000',
+      borderColor: "#000",
       padding: 10,
       margin: 5,
-      width: '80%',
+      width: "80%",
     },
     Logo: {
       width: 100,
       height: 100,
       resizeMode: "contain",
       alignSelf: "center",
-    }
-   
+    },
   });
 
   return (
     <View style={styles.container}>
-
       <Image style={styles.Logo} source={Logo} />
       <TextInput
         style={styles.text}
@@ -66,7 +64,6 @@ export default function Signup() {
         keyboardType="numeric"
         onChangeText={setPhone}
         numberOfLines={1}
-
       />
       <TextInput
         style={isFocused ? styles.focusedText : styles.text}
@@ -82,7 +79,6 @@ export default function Signup() {
         secureTextEntry
         onChangeText={setPassword}
         numberOfLines={1}
-      
       />
       <TextInput
         style={isFocused1 ? styles.focusedText : styles.text}
@@ -90,18 +86,19 @@ export default function Signup() {
         secureTextEntry
         onChangeText={setConfirmPassword}
         numberOfLines={1}
-       
       />
-      <Button style={styles.button}
+      <Button
+        style={styles.button}
         title="Signup"
         onPress={() =>
-          console.log(`the user name ${Name}, phone ${Phone}, and password ${password}`)
+          console.log(
+            `the user name ${Name}, phone ${Phone}, and password ${password}`
+          )
         }
       />
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-  <Text style={styles.text}>Already User,Please Login</Text>
-</TouchableOpacity>
-
+      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <Text style={styles.text}>Already User,Please Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }

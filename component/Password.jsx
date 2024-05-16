@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   Keyboard,
-    TouchableWithoutFeedback,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { useState } from "react";
 
@@ -26,33 +26,33 @@ const Password = ({ navigation }) => {
         <Text style={styles.textName}>Employee Profile</Text>
         <Text style={styles.textID1}>123456</Text>
       </View>
-     
-      <View style={styles.form} >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View>
-          <Text style={styles.text}>Current Password</Text>
-          <TextInput
-            style={styles.input}
-            value={oldPassword}
-            onChangeText={(text) => setOldPassword(text)}
-            secureTextEntry={true}
-          />
 
-          <Text style={styles.text}>New Password</Text>
-          <TextInput
-            style={styles.input}
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry={true}
-          />
-          <Text style={styles.text}>Confirm Password</Text>
-          <TextInput
-            style={styles.input}
-            value={confirmPassword}
-            onChangeText={(text) => setConfirmPassword(text)}
-            secureTextEntry={true}
-          />
-        </View>
+      <View style={styles.form}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View>
+            <Text style={styles.text}>Current Password</Text>
+            <TextInput
+              style={styles.input}
+              value={oldPassword}
+              onChangeText={(text) => setOldPassword(text)}
+              secureTextEntry={true}
+            />
+
+            <Text style={styles.text}>New Password</Text>
+            <TextInput
+              style={styles.input}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              secureTextEntry={true}
+            />
+            <Text style={styles.text}>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              value={confirmPassword}
+              onChangeText={(text) => setConfirmPassword(text)}
+              secureTextEntry={true}
+            />
+          </View>
         </TouchableWithoutFeedback>
         <View>
           <TouchableOpacity style={styles.button}>
@@ -60,7 +60,6 @@ const Password = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-     
     </View>
   );
 };

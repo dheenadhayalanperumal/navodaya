@@ -14,17 +14,127 @@ import Product from "./Product";
 
 const Logo = require("../Image/Logo1.png");
 
-const chitdetails=[{Userid:1234567892,UserName:"dheena", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:2234567892,UserName:"siva", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:3234567892,UserName:"kumar", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:4234567892,UserName:"sathish", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:5234567892,UserName:"suresh", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:6234567892,UserName:"kumar", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:7234567892,UserName:"sathish", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:8234567892,UserName:"suresh", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:9234567892,UserName:"kumar", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"},
-{Userid:10234567892,UserName:"sathish", Chitid:"100 days Loan Scheme",LoanAmount:1000,ChitStartdate:"2021-09-01",Chitstatus:"collect",DailyPay:10,TotalAmount:1000,ChitDuration:100,ChitEnddate:"2021-12-09"}
-
+const chitdetails = [
+  {
+    Userid: 1234567892,
+    UserName: "dheena",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 2234567892,
+    UserName: "siva",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 3234567892,
+    UserName: "kumar",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 4234567892,
+    UserName: "sathish",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 5234567892,
+    UserName: "suresh",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 6234567892,
+    UserName: "kumar",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 7234567892,
+    UserName: "sathish",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 8234567892,
+    UserName: "suresh",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 9234567892,
+    UserName: "kumar",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
+  {
+    Userid: 10234567892,
+    UserName: "sathish",
+    Chitid: "100 days Loan Scheme",
+    LoanAmount: 1000,
+    ChitStartdate: "2021-09-01",
+    Chitstatus: "collect",
+    DailyPay: 10,
+    TotalAmount: 1000,
+    ChitDuration: 100,
+    ChitEnddate: "2021-12-09",
+  },
 ];
 
 const styles = StyleSheet.create({
@@ -54,9 +164,8 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 20,
     color: "#A20A3A",
-    textAlign:"left",
-    paddingLeft:32,
-
+    textAlign: "left",
+    paddingLeft: 32,
   },
   logo: {
     width: 148,
@@ -78,7 +187,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     padding: 10,
-    borderRadius:5,
+    borderRadius: 5,
     marginLeft: 16,
   },
   SearchButton: {
@@ -94,18 +203,16 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "center",
     fontSize: 16,
-   
   },
-  RouteText:{
-    width: '100%',
+  RouteText: {
+    width: "100%",
     height: 43,
-borderRadius: 5,
+    borderRadius: 5,
     backgroundColor: "#F4F6F9",
     alignItems: "left",
     justifyContent: "center",
     marginTop: 12,
-  
-  }
+  },
 });
 
 const Home = ({ navigation }) => {
@@ -113,7 +220,6 @@ const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
 
   return (
     <View style={styles.container}>
@@ -133,15 +239,17 @@ const Home = ({ navigation }) => {
       </View>
 
       <View style={styles.RouteText}>
-      <Text style={styles.text1}>Route 05 List</Text>
+        <Text style={styles.text1}>Route 05 List</Text>
       </View>
 
-      
-      <ScrollView contentContainerStyle={styles.disp} showsVerticalScrollIndicator={false} >
-      {chitdetails.map((item,index) => (
-        <Product key={index} data={item} />
-      ))}
-    </ScrollView>
+      <ScrollView
+        contentContainerStyle={styles.disp}
+        showsVerticalScrollIndicator={false}
+      >
+        {chitdetails.map((item, index) => (
+          <Product key={index} data={item} />
+        ))}
+      </ScrollView>
     </View>
   );
 };
