@@ -10,10 +10,10 @@ import {
   Keyboard,
   ScrollView,
   TouchableWithoutFeedback,
-  Button,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
+import { Button } from "react-native-paper";
 
 const AddDocument = () => {
   const navigation = useNavigation();
@@ -36,17 +36,17 @@ const AddDocument = () => {
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: false,
+      // aspect: [4, 3],
       quality: 1,
     });
-
+  
     console.log(result);
-
-    if (!result.cancelled) {
-      setShopAddress((prevState) => ({
+  
+    if (!result.cancelled && result.assets) {
+      setFormData((prevState) => ({
         ...prevState,
-        shopPhoto: result.assets[0].uri,
+        photo: result.assets[0].uri,
       }));
-      console.log("Updated formData:", ShopAddress);
     }
   };
 
@@ -77,9 +77,10 @@ const AddDocument = () => {
           <View style={styles.camera}>
             <Button
               style={styles.camBut}
-              title="Take Picture"
               onPress={takePicture}
-            />
+            >
+              Take Picture
+            </Button>
           </View>
 
           <Text style={styles.text}>Adhar card Number</Text>
@@ -91,12 +92,91 @@ const AddDocument = () => {
           <Text style={styles.text}>Pan card Photo</Text>
 
           <View style={styles.camera}>
-            <Button
+          <Button
               style={styles.camBut}
-              title="Take Picture"
               onPress={takePicture}
-            />
+            >
+              Take Picture
+            </Button>
           </View>
+
+          <Text style={styles.text}>Pan card Number</Text>
+          <TextInput
+            style={styles.input}
+            value={OtherDocument.PanNumber}
+            onChangeText={(text) => handleChangeText("PanNumber", text)}
+          />
+          <Text style={styles.text}>Voter ID Photo</Text>
+
+          <View style={styles.camera}>
+          <Button
+              style={styles.camBut}
+              onPress={takePicture}
+            >
+              Take Picture
+            
+            </Button>
+
+            </View>
+          <Text style={styles.text}>Voter ID Number</Text>
+          <TextInput
+            style={styles.input}
+            value={OtherDocument.VoterNumber}
+            onChangeText={(text) => handleChangeText("VoterNumber", text)}
+          />
+          <Text style={styles.text}>Driving License Photo</Text>
+
+          <View style={styles.camera}>
+          <Button
+              style={styles.camBut}
+              onPress={takePicture}
+            >
+              Take Picture
+            </Button>
+            </View>
+          <Text style={styles.text}>Driving License Number</Text>
+          <TextInput
+            style={styles.input}
+            value={OtherDocument.DrivingNumber}
+            onChangeText={(text) => handleChangeText("DrivingNumber", text)}
+          />
+          <Text style={styles.text}>Employment ID Photo</Text>
+
+          <View style={styles.camera}>
+          <Button
+              style={styles.camBut}
+              onPress={takePicture}
+            >
+              Take Picture
+            </Button>
+            </View>
+          <Text style={styles.text}>Ration Card Photo</Text>
+
+          <View style={styles.camera}>
+          <Button
+              style={styles.camBut}
+              onPress={takePicture}
+            >
+              Take Picture
+            </Button>
+            </View>
+          <Text style={styles.text}>Any other ID Photo</Text>
+
+          <View style={styles.camera}>
+          <Button
+
+              style={styles.camBut}
+              onPress={takePicture}
+            >
+              Take Picture
+            </Button>
+            </View>
+
+
+
+
+
+
         </View>
 
         <View style={styles.buttonarrange}>
@@ -107,7 +187,7 @@ const AddDocument = () => {
           </View>
           <View>
             <TouchableOpacity style={styles.button} onPress={handleSave}>
-              <Text style={styles.buttonText}>Save & Next</Text>
+              <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -179,7 +259,6 @@ const styles = StyleSheet.create({
   },
   camBut: {
     backgroundColor: "#E6E8F0",
-    padding: 10,
     alignItems: "center",
     borderRadius: 5,
   },
@@ -189,6 +268,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E6E8F0",
     borderRadius: 5,
+    marginBottom: 20,
   },
 });
 

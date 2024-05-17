@@ -185,7 +185,7 @@ const AddCustomer1 = () => {
           </View>
           <View>
             <TouchableOpacity style={styles.button} onPress={handleSave}>
-              <Text style={styles.buttonText}>Save & Next</Text>
+              <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>
         </View>

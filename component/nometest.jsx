@@ -15,128 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Logo = require("../Image/Logo1.png");
 
-const chitdetails = [
-  {
-    Userid: 1234567892,
-    UserName: "dheena",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 2234567892,
-    UserName: "siva",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 3234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 4234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 5234567892,
-    UserName: "suresh",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 6234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 7234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 8234567892,
-    UserName: "suresh",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 9234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 10234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-];
+
 
 
 const userId= AsyncStorage.getItem("userId");
@@ -144,12 +23,40 @@ const token= AsyncStorage.getItem("token");
 
 const Home = ({ navigation }) => {
   // Destructure navigation from props
+  const [routeData, setRouteData] = useState({});
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const userId = await AsyncStorage.getItem("userId");
+      const token = await AsyncStorage.getItem("token");
 
+      const formData = new FormData();
+      formData.append("staff_id", userId);
+      formData.append("token", token);
+
+      fetch("https://nmwinternet.com/staging/demo/admin/Api/today_shedule", {
+        method: "POST",
+        body: formData,
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        let newRouteData = {};
+        data.route.forEach((route, index) => {
+          newRouteData[`route${index}`] = route.route_id;
+        });
+        setRouteData(newRouteData);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -176,9 +83,19 @@ const Home = ({ navigation }) => {
         contentContainerStyle={styles.disp}
         showsVerticalScrollIndicator={false}
       >
-        {chitdetails.map((item, index) => (
+       {Object.entries(routeData).map(([route, routeId], index) => (
+  <View key={index}>
+    <Text style={styles.routeTitle}>Route: {route}</Text>
+    <Text style={styles.routeDetails}>Route ID: {routeId}</Text>
+    {routeId.map((item, index) => (
+      <Product key={index} data={item} />
+    ))}
+      </View>
+    ))}
+
+        {/* {routeData.map((item, index) => (
           <Product key={index} data={item} />
-        ))}
+        ))} */}
       </ScrollView>
     </View>
   );

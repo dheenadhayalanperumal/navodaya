@@ -10,10 +10,10 @@ import {
   Keyboard,
   ScrollView,
   TouchableWithoutFeedback,
-  Button,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
+import { Button } from "react-native-paper";
 
 const ShopAddress = () => {
   const navigation = useNavigation();
@@ -34,15 +34,14 @@ const ShopAddress = () => {
       // aspect: [4, 3],
       quality: 1,
     });
-
+  
     console.log(result);
-
-    if (!result.cancelled) {
-      setShopAddress((prevState) => ({
+  
+    if (!result.cancelled && result.assets) {
+      setFormData((prevState) => ({
         ...prevState,
-        shopPhoto: result.assets[0].uri,
+        photo: result.assets[0].uri,
       }));
-      console.log("Updated formData:", ShopAddress);
     }
   };
 
@@ -51,7 +50,7 @@ const ShopAddress = () => {
   };
 
   const handleSave = () => {
-    alert("Data Saved", ShopAddress);
+    // alert("Data Saved", ShopAddress);
     console.log(ShopAddress);
     navigation.navigate("OtherDocuments");
     // console.log(formData);
@@ -120,9 +119,10 @@ const ShopAddress = () => {
           <View style={styles.camera}>
             <Button
               style={styles.camBut}
-              title="Take Picture"
               onPress={takePicture}
-            />
+            >
+              Take Picture
+            </Button>
           </View>
         </View>
 
@@ -134,7 +134,7 @@ const ShopAddress = () => {
           </View>
           <View>
             <TouchableOpacity style={styles.button} onPress={handleSave}>
-              <Text style={styles.buttonText}>Save & Next</Text>
+              <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
   },
   camBut: {
     backgroundColor: "#E6E8F0",
-    padding: 10,
     alignItems: "center",
     borderRadius: 5,
   },

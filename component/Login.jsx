@@ -63,7 +63,7 @@ export default function Login() {
         } else {
           // Display an alert if the username or password is incorrect
           alert(
-            "Login Failed ,The provided username or password is incorrect."
+            "invailed token."
           );
         }
       })
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   focusedText: {
+    paddingLeft:16,
     marginTop: 10,
     marginBottom: 10,
     height: 43,

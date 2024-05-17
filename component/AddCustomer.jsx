@@ -9,11 +9,12 @@ import {
   Keyboard,
   ScrollView,
   TouchableWithoutFeedback,
-  Button,
 } from "react-native";
+import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const Logo = require("../Image/Logo1.png");
 
@@ -34,7 +35,7 @@ const AddCustomer = () => {
     relatives: "",
     vehicle: "",
     house: "",
-    photo: "",
+    photo: null,
     fatherName: "",
     motherName: "",
     brotherName: "",
@@ -48,15 +49,14 @@ const AddCustomer = () => {
       // aspect: [4, 3],
       quality: 1,
     });
-
+  
     console.log(result);
-
-    if (!result.cancelled) {
+  
+    if (!result.cancelled && result.assets) {
       setFormData((prevState) => ({
         ...prevState,
         photo: result.assets[0].uri,
       }));
-      console.log("Updated formData:", formData);
     }
   };
 
@@ -190,12 +190,13 @@ const AddCustomer = () => {
               <Text style={styles.text}>Customer Photo</Text>
 
               <View style={styles.camera}>
-                <Button
-                  style={styles.camBut}
-                  title="Take Picture"
-                  onPress={takePicture}
-                />
-              </View>
+            <Button
+              style={styles.camBut}
+              onPress={takePicture}
+            >
+              Take Picture
+            </Button>
+          </View>
 
               <Text style={styles.text}>Father's Name</Text>
               <TextInput
@@ -228,7 +229,7 @@ const AddCustomer = () => {
           </TouchableWithoutFeedback>
           <View>
             <TouchableOpacity style={styles.button} onPress={handleSave}>
-              <Text style={styles.buttonText}>Save & Next</Text>
+              <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.space}></View>
@@ -313,6 +314,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E6E8F0",
     borderRadius: 5,
+  },
+  camBut: {
+    backgroundColor: "#E6E8F0",
+    alignItems: "center",
+    borderRadius: 5,
+    
   },
 });
 

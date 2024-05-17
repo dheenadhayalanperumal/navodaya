@@ -15,7 +15,7 @@ export default function Product({ data }) {
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text}>{data.UserName}</Text>
+          <Text style={styles.text}>{data.name}</Text>
           <Text style={styles.text}>{data.Userid}</Text>
         </View>
         <View style={styles.chitmaindata}>
