@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   View,
   Text,
@@ -8,137 +8,86 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Collection from "./Collection";
-import { Calendar, CalendarList } from "react-native-calendars";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+
 const Logo = require("../Image/Logo1.png");
 const but = require("../Image/EmButton.png");
-import { useNavigation } from "@react-navigation/native";
 
-const product = [
-  {
-    Userid: 1234567892,
-    UserName: "dheena",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 2234567892,
-    UserName: "siva",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 3234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 4234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 5234567892,
-    UserName: "suresh",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 6234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 7234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 8234567892,
-    UserName: "suresh",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 9234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 10234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-];
+
+
 
 const History = () => {
   const navigation = useNavigation();
+const [data , setData] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+const [collect , setCollect] = useState([]);
+const [target , setTarget] = useState([]);
+
+
+useFocusEffect(
+  useCallback(() => {
+    const fetchData = async () => {
+      try {
+        const userId = await AsyncStorage.getItem("userId");
+        const token = await AsyncStorage.getItem("token");
+        
+
+        const formData = new FormData();
+        formData.append("staff_id", userId);
+        formData.append("token", token);
+
+        const response = await fetch("https://nmwinternet.com/staging/demo/admin/Api/get_collcetion_details", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+        setData(data.loan_details);
+        setCollect(data.collected);
+        setTarget(data.target_amount);
+        // console.log("Data:", data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error:", error);
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [])
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text>Error: {error.message}</Text>
+      </View>
+    );
+  }
+ 
+if(!data){
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Image style={styles.logo} source={Logo} />
+      </View>
+      <Text style={styles.nodata}>No Data Found or No Amount Collected</Text>
+    </View>
+  );
+}
+
 
   return (
     <View style={styles.container}>
@@ -161,11 +110,11 @@ const History = () => {
       <View style={styles.PaymentBoxHead}>
         <View style={styles.PaymentBox}>
           <Text style={styles.datatext}>Total Amount</Text>
-          <Text style={styles.text}>INR 70000</Text>
+          <Text style={styles.text}>INR {collect}</Text>
         </View>
         <View style={styles.PaymentBox}>
           <Text style={styles.datatext}>Collected Amount</Text>
-          <Text style={styles.text}>INR 30000</Text>
+          <Text style={styles.text}>INR {target}</Text>
         </View>
       </View>
 
@@ -173,7 +122,7 @@ const History = () => {
         contentContainerStyle={styles.disp}
         showsVerticalScrollIndicator={false}
       >
-        {product.map((item, index) => (
+        {data.map((item, index) => (
           <Collection key={index} data={item} />
         ))}
       </ScrollView>
@@ -188,6 +137,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  nodata: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    padding:16,
+  },
+
   header: {
     flexDirection: "row",
     justifyContent: "center",

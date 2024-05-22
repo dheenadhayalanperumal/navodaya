@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -9,56 +9,103 @@ import {
 } from "react-native";
 import moment from "moment";
 import { useState } from "react";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { RadioButton } from "react-native-paper";
+
 const QR = require("../Image/QR.png");
 
-const ProductDes = ({ route }) => {
+const ProductDes = ( {route}) => {
   const { product } = route.params;
-
-  // console.log('ChitStartdate:', product.ChitStartdate);
-  const startDate = moment(product.ChitStartdate, "YYYY/DD/MM");
-  // console.log('startDate:', startDate);
-  const today = moment();
-  const daysTillToday = today.diff(startDate, "days");
-  const [isCashSelected, setCashSelection] = useState(false);
+  const navigation = useNavigation();
+  const [isCashSelected, setCashSelection] = useState(true);
   const [isUPISelected, setUpiSelection] = useState(false);
   const [chitStatus, setChitStatus] = useState(product.Chitstatus);
+  const [paidAmount, setPaidAmount] = useState();
+  const [staffId, setStaffId] = useState(null);
+  const [token, setToken] = useState(null);
+  
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const userId = await AsyncStorage.getItem("userId");
+      const userToken = await AsyncStorage.getItem("token");
+      setStaffId(userId);
+      setToken(userToken);
+    };
+
+    fetchUserDetails();
+  }, []);
+
+  const UserPaid = () => {
+    if (staffId && token) {
+      const formData = new FormData();
+      formData.append("staff_id", staffId);
+      formData.append("token", token);
+      formData.append("customer_id", product.customer_id);
+      formData.append("paid_amount", paidAmount);
+      formData.append("payment_mode", isCashSelected ? "cash" : "online");
+      console.log("Form Data:", formData);
+
+      fetch("https://nmwinternet.com/staging/demo/admin/Api/update_payment", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+            console.log(Error);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Response data:", data);
+          if (data.status === true) {
+            console.log(data);
+            alert("Payment Successful");
+            navigation.navigate("Home1");
+            
+          }
+        });
+    }
+  };
 
   return (
     <View style={styles.containerfull}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text}>{product.UserName}</Text>
-          <Text style={styles.text}>{product.Userid}</Text>
+          <Text style={styles.text}>{product.name}</Text>
+          <Text style={styles.text}>{product.customer_id}</Text>
         </View>
         <View style={styles.chitmaindata}>
           <View style={styles.chitdata}>
-            <Text style={styles.datatext}>{product.Chitid}</Text>
-            <Text style={styles.Totaltext}>INR{product.LoanAmount}</Text>
+            <Text style={styles.datatext}>{product.loan_type}</Text>
+            <Text style={styles.Totaltext}>INR {product.amount}</Text>
           </View>
           <View>
             <Text style={styles.Buttontext}>
-              {" "}
+              {/* {" "}
               {daysTillToday} / {product.ChitDuration}
+               */}
+               next
             </Text>
           </View>
         </View>
 
         <View style={styles.chitbasedata}>
-          <Text style={styles.chitbasetext}>Route- 05</Text>
-          <Text style={styles.chitbasetext}>{product.ChitStartdate}</Text>
-          <Text style={styles.chitbasetext}>{product.DailyPay} per day</Text>
+          <Text style={styles.chitbasetext}>Paid : {product.paid_amount}</Text>
+          <Text style={styles.chitbasetext}>Unpaid : {product.un_paid_amount}</Text>
+          <Text style={styles.chitbasetext}>{product.per_day} per day</Text>
         </View>
       </View>
       <View style={styles.PaymentBoxHead}>
         <View style={styles.PaymentBox}>
           <Text style={styles.datatext}>Paid Amount</Text>
-          <Text style={styles.text}>INR 70000</Text>
+          <Text style={styles.text}>INR {product.paid_amount}</Text>
         </View>
         <View style={styles.PaymentBox}>
           <Text style={styles.datatext}>Remaining Amount</Text>
-          <Text style={styles.text}>INR 30000</Text>
+          <Text style={styles.text}>INR {product.un_paid_amount}</Text>
         </View>
       </View>
       <View style={styles.RouteText}>
@@ -89,16 +136,19 @@ const ProductDes = ({ route }) => {
           {isUPISelected && <Image style={styles.Image} source={QR} />}
         </View>
         <View style={styles.SearchInput}>
-          <TextInput style={styles.Searchtext} placeholder="Enter the Amount" />
+          <TextInput style={styles.Searchtext}
+          placeholder="Enter the Amount" 
+          keyboardType="numeric"
+          onChangeText={(value) => {
+            setPaidAmount(value);
+          }}
+          />
 
           <TouchableOpacity
-            style={styles.SearchButton}
-            onPress={() => {
-              alert("Amount Paid");
-              setChitStatus("Collected");
-            }}
+            style={styles.SearchButton} 
+            onPress={UserPaid}
           >
-            <Text style={styles.ButtonText}>{product.Chitstatus}</Text>
+            <Text style={styles.ButtonText}>Collect</Text>
           </TouchableOpacity>
         </View>
       </View>

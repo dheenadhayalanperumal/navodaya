@@ -48,6 +48,7 @@ export default function Login() {
           // console.log(data);
           AsyncStorage.setItem("token", data.user_details.login_token);
           AsyncStorage.setItem("userId", data.user_details.id);
+          
           AsyncStorage.setItem("isLoggedIn", "1")
             .then(() => {
               navigation.reset({

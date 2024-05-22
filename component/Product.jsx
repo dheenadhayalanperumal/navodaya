@@ -16,24 +16,24 @@ export default function Product({ data }) {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.text}>{data.name}</Text>
-          <Text style={styles.text}>{data.Userid}</Text>
+          <Text style={styles.text}>{data.customer_id}</Text>
         </View>
         <View style={styles.chitmaindata}>
           <View style={styles.chitdata}>
-            <Text style={styles.datatext}>{data.Chitid}</Text>
-            <Text style={styles.Totaltext}>INR{data.LoanAmount}</Text>
+            <Text style={styles.datatext}>{data.loan_type}</Text>
+            <Text style={styles.Totaltext}>INR {data.amount}</Text>
           </View>
           <View style={styles.collectButton}>
             <TouchableOpacity onPress={handlePress}>
-              <Text style={styles.Buttontext}>{data.Chitstatus}</Text>
+              <Text style={styles.Buttontext}>Collect</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styles.chitbasedata}>
-          <Text style={styles.chitbasetext}>Route- 05</Text>
-          <Text style={styles.chitbasetext}>{data.ChitStartdate}</Text>
-          <Text style={styles.chitbasetext}>{data.DailyPay} per day</Text>
+          <Text style={styles.chitbasetext}>Paid : {data.loan_details}</Text>
+          <Text style={styles.chitbasetext}>Unpaid : {data.un_paid_amount}</Text>
+          <Text style={styles.chitbasetext}>{data.per_day} per day</Text>
         </View>
       </View>
     </TouchableOpacity>

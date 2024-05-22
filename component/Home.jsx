@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,160 +6,95 @@ import {
   Image,
   FlatList,
   TextInput,
-  Button,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
-import Product from "./Product";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Product from "./Product";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Logo = require("../Image/Logo1.png");
 
-const chitdetails = [
-  {
-    Userid: 1234567892,
-    UserName: "dheena",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 2234567892,
-    UserName: "siva",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 3234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 4234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 5234567892,
-    UserName: "suresh",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 6234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 7234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 8234567892,
-    UserName: "suresh",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 9234567892,
-    UserName: "kumar",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-  {
-    Userid: 10234567892,
-    UserName: "sathish",
-    Chitid: "100 days Loan Scheme",
-    LoanAmount: 1000,
-    ChitStartdate: "2021-09-01",
-    Chitstatus: "collect",
-    DailyPay: 10,
-    TotalAmount: 1000,
-    ChitDuration: 100,
-    ChitEnddate: "2021-12-09",
-  },
-];
-
-
-const userId= AsyncStorage.getItem("userId");
-const token= AsyncStorage.getItem("token");
-
 const Home = ({ navigation }) => {
-  // Destructure navigation from props
-  const [products, setProducts] = useState([]);
+  const [routeData, setRouteData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useFocusEffect(
+  useCallback(() => {
+    const fetchData = async () => {
+      try {
+        const userId = await AsyncStorage.getItem("userId");
+        const token = await AsyncStorage.getItem("token");
 
+        const formData = new FormData();
+        formData.append("staff_id", userId);
+        formData.append("token", token);
 
+        const response = await fetch("https://nmwinternet.com/staging/demo/admin/Api/today_shedule", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+        if(data.route){
+          setRouteData(data.route.route_id);
+        }
+        else{
+          setRouteData(null);
+        }
+        // data.route ? setRouteData(data.route.route_id) : setRouteData(null); 
+        // setRouteData(data.route.route_id);
+        console.log("Data:", routeData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error:", error);
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [])
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image style={styles.logo} source={Logo} />
+        </View>
+        <Text>Error: {error.message}</Text>
+      </View>
+    );
+  }
+
+  if(!routeData){
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image style={styles.logo} source={Logo} />
+        </View>
+        <Text style={styles.nodata}>No Data Found or All Amount are collected</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image style={styles.logo} source={Logo} />
       </View>
-      {/* <Image style={styles.logo} source={Logo} /> */}
+
       <View style={styles.SearchInput}>
         <TextInput style={styles.Searchtext} placeholder="Enter User ID" />
-
         <TouchableOpacity
           style={styles.SearchButton}
           onPress={() => alert("Search")}
@@ -168,18 +103,23 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.RouteText}>
-        <Text style={styles.text1}>Route 05 List</Text>
+      
+      <FlatList
+        data={Object.keys(routeData)}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <View>
+            <View style={styles.RouteText}>
+        <Text style={styles.text1}>Route ID: {item}</Text>
       </View>
-
-      <ScrollView
-        contentContainerStyle={styles.disp}
-        showsVerticalScrollIndicator={false}
-      >
-        {chitdetails.map((item, index) => (
-          <Product key={index} data={item} />
-        ))}
-      </ScrollView>
+            {/* <Text>Route ID: {item}</Text> */}
+            {routeData[item].map((entry, index) => (
+              <Product key={index} data={entry} />
+          
+            ))}
+          </View>
+        )}
+      />
     </View>
   );
 };
@@ -191,6 +131,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  nodata: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    padding:16,
+  },
+
   header: {
     flexDirection: "row",
     justifyContent: "center",
@@ -198,21 +148,6 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 24,
     backgroundColor: "#A20A3A",
-  },
-  disp: {
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-  },
-  text: {
-    fontSize: 20,
-    color: "#000",
-    margin: 5,
-  },
-  text1: {
-    fontSize: 20,
-    color: "#A20A3A",
-    textAlign: "left",
-    paddingLeft: 32,
   },
   logo: {
     width: 148,
@@ -256,11 +191,22 @@ const styles = StyleSheet.create({
     height: 43,
     borderRadius: 5,
     backgroundColor: "#F4F6F9",
-    alignItems: "left",
+    alignItems: "flex-start",
     justifyContent: "center",
     marginTop: 12,
+    paddingLeft: 32,
+  },
+  text1: {
+    fontSize: 20,
+    color: "#A20A3A",
+  },
+  entryContainer: {
+    marginVertical: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
   },
 });
-
 
 export default Home;

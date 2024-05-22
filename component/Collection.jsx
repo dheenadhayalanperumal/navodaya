@@ -15,14 +15,14 @@ export default function Collection({ data }) {
     <TouchableOpacity onPress={handlePress} disabled={true}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text}>{data.UserName}</Text>
-          <Text style={styles.text}>{data.Userid}</Text>
+          <Text style={styles.text}>{data.customer_name}</Text>
+          <Text style={styles.text}>{data.customer_id}</Text>
         </View>
 
         <View style={styles.chitmaindata}>
           <View style={styles.chitdata}>
-            <Text style={styles.datatext}>{data.Chitid}</Text>
-            <Text style={styles.Totaltext}>INR{data.LoanAmount}</Text>
+            <Text style={styles.datatext}>{data.loan_type}</Text>
+            <Text style={styles.Totaltext}>INR {data.collected_amt}</Text>
           </View>
           <View style={styles.collectButton}>
             <TouchableOpacity onPress={handlePress} disabled={true}>
@@ -32,9 +32,9 @@ export default function Collection({ data }) {
         </View>
 
         <View style={styles.chitbasedata}>
-          <Text style={styles.chitbasetext}>Route-05</Text>
-          <Text style={styles.chitbasetext}>{data.ChitStartdate}</Text>
-          <Text style={styles.chitbasetext}>11.30am</Text>
+          <Text style={styles.chitbasetext}>Route {data.route_id}</Text>
+          <Text style={styles.chitbasetext}>Date: {data.date_created}</Text>
+          <Text style={styles.chitbasetext}>Time: {data.time}</Text>
         </View>
       </View>
     </TouchableOpacity>
