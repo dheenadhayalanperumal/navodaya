@@ -22,10 +22,10 @@ export default function Collection({ data }) {
         <View style={styles.chitmaindata}>
           <View style={styles.chitdata}>
             <Text style={styles.datatext}>{data.loan_type}</Text>
-            <Text style={styles.Totaltext}>INR {data.collected_amt}</Text>
+            <Text style={styles.Totaltext}>&#8377; {data.collected_amt}</Text>
           </View>
           <View style={styles.collectButton}>
-            <TouchableOpacity onPress={handlePress} disabled={true}>
+            <TouchableOpacity onPress={handlePress}>
               <Text style={styles.Buttontext}>Collected</Text>
             </TouchableOpacity>
           </View>

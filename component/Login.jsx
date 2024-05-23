@@ -44,10 +44,11 @@ export default function Login() {
       })
       .then((data) => {
         console.log("Response data:", data);
-        if (data.status === "ok") {
+        if (data.status === true) {
           // console.log(data);
           AsyncStorage.setItem("token", data.user_details.login_token);
           AsyncStorage.setItem("userId", data.user_details.id);
+          AsyncStorage.setItem("userName", data.user_details.staff_name);
           
           AsyncStorage.setItem("isLoggedIn", "1")
             .then(() => {

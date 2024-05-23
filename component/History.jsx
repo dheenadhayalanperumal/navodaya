@@ -25,6 +25,9 @@ const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
 const [collect , setCollect] = useState([]);
 const [target , setTarget] = useState([]);
+const [username , setUsername] = useState([]);
+const [id , setId] = useState([]);
+
 
 
 useFocusEffect(
@@ -33,7 +36,11 @@ useFocusEffect(
       try {
         const userId = await AsyncStorage.getItem("userId");
         const token = await AsyncStorage.getItem("token");
+        const name = await AsyncStorage.getItem("userName");
         
+        setUsername(name);
+        setId(userId);
+
 
         const formData = new FormData();
         formData.append("staff_id", userId);
@@ -64,7 +71,7 @@ useFocusEffect(
   if (loading) {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <Text style={styles.load} >Loading...</Text>
       </View>
     );
   }
@@ -83,6 +90,17 @@ if(!data){
       <View style={styles.header}>
         <Image style={styles.logo} source={Logo} />
       </View>
+      <View style={styles.EmProfile}>
+        <View>
+          <Text style={styles.textName}>{username}</Text>
+          <Text style={styles.textID1}>Staff ID: {id}</Text>
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate("Password")}>
+          <View>
+            <Image style={styles.Empbut} source={but} />
+          </View>
+        </TouchableOpacity>
+      </View>
       <Text style={styles.nodata}>No Data Found or No Amount Collected</Text>
     </View>
   );
@@ -97,8 +115,8 @@ if(!data){
 
       <View style={styles.EmProfile}>
         <View>
-          <Text style={styles.textName}>Employee Profile</Text>
-          <Text style={styles.textID1}>123456</Text>
+          <Text style={styles.textName}>{username}</Text>
+          <Text style={styles.textID1}>Staff ID: {id}</Text>
         </View>
         <TouchableOpacity onPress={() => navigation.navigate("Password")}>
           <View>
@@ -109,12 +127,12 @@ if(!data){
 
       <View style={styles.PaymentBoxHead}>
         <View style={styles.PaymentBox}>
-          <Text style={styles.datatext}>Total Amount</Text>
-          <Text style={styles.text}>INR {collect}</Text>
+          <Text style={styles.datatext}>Collected Amount</Text>
+          <Text style={styles.text}>&#8377; {collect}</Text>
         </View>
         <View style={styles.PaymentBox}>
-          <Text style={styles.datatext}>Collected Amount</Text>
-          <Text style={styles.text}>INR {target}</Text>
+          <Text style={styles.datatext}>Target Amount</Text>
+          <Text style={styles.text}> &#8377; {target}</Text>
         </View>
       </View>
 
@@ -239,6 +257,13 @@ const styles = StyleSheet.create({
     margin: 5,
     resizeMode: "contain",
   },
+ load:{
+  alignItems:"center",
+  justifyContent:"center",
+  fontSize:20,
+  textAlign:"center",
+  marginTop:"70%",
+ },
 });
 
 export default History;

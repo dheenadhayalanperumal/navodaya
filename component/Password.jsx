@@ -9,14 +9,76 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import { useState } from "react";
+import { useState , useEffect} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Logo = require("../Image/empImg.png");
 
 const Password = ({ navigation }) => {
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
+  const [staffId, setStaffId] = useState(null);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const userId = await AsyncStorage.getItem("userId");
+      const userToken = await AsyncStorage.getItem("token");
+      setStaffId(userId);
+      setToken(userToken);
+    };
+
+    fetchUserDetails();
+  }, []);
+
+  const handleSaveChanges = () => {
+    if (password !== confirmPassword) {
+      alert("Error New password and confirm password must be the same.");
+      return;
+
+    }
+    else if(password.length < 6){
+      alert("Error Password must be at least 6 characters long.");
+      return;
+    }
+    
+    else{
+      const formData = new FormData();
+      formData.append("staff_id", staffId);
+      formData.append("token", token);
+      formData.append("current_password", oldPassword);
+      formData.append("password", password);
+     
+
+      fetch("https://nmwinternet.com/staging/demo/admin/Api/change_password", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+            console.log(Error);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Response data:", data);
+          if (data.status === true && data.password_changed===true) {
+            alert("Success", "Password changed successfully.");
+          } else {
+            alert("Password change failed.");
+          }
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
+      
+    }
+  
+    
+  };
 
   return (
     <View style={styles.container}>
@@ -55,7 +117,7 @@ const Password = ({ navigation }) => {
           </View>
         </TouchableWithoutFeedback>
         <View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
             <Text style={styles.buttonText}>Save Changes</Text>
           </TouchableOpacity>
         </View>

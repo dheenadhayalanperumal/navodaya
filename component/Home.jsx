@@ -7,10 +7,13 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Product from "./Product";
 import { useFocusEffect } from "@react-navigation/native";
+
 
 const Logo = require("../Image/Logo1.png");
 
@@ -18,6 +21,11 @@ const Home = ({ navigation }) => {
   const [routeData, setRouteData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [customerId, setCustomerId] = useState("");
+  const [searchResult, setSearchResult] = useState(null);
+  const [error1, setError1] = useState(null);
+ 
+
 
   useFocusEffect(
   useCallback(() => {
@@ -44,7 +52,7 @@ const Home = ({ navigation }) => {
         }
         // data.route ? setRouteData(data.route.route_id) : setRouteData(null); 
         // setRouteData(data.route.route_id);
-        console.log("Data:", routeData);
+        // console.log("Data:", routeData);
         setLoading(false);
       } catch (error) {
         console.error("Error:", error);
@@ -57,10 +65,41 @@ const Home = ({ navigation }) => {
   }, [])
   );
 
+
+  const searchByCustomerId = () => {
+    const searchUserDetails = (customerId) => {
+      if (!routeData) {
+        return null;
+      }
+      for (const routeKey in routeData) {
+        const loans = routeData[routeKey];
+        for (const loan of loans) {
+          if (loan.customer_id === customerId) {
+            return loan;
+          }
+        }
+      }
+      return null; // Return null if not found
+    };
+
+    const result = searchUserDetails(customerId);
+    if (result) {
+      setSearchResult(result);
+      setError1(null);
+      // alert("Customer ID found");
+      console.log("Customer ID found");
+    } else {
+      setSearchResult(null);
+      setError1("Customer ID not found");
+      alert("Customer ID not found");
+    }
+    setCustomerId("");
+  };
+
   if (loading) {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <Text style={styles.load}>Loading...</Text>
       </View>
     );
   }
@@ -87,24 +126,40 @@ const Home = ({ navigation }) => {
     );
   }
 
+
+  
+
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <View style={styles.header}>
         <Image style={styles.logo} source={Logo} />
       </View>
+      {/* <LoanSearchApp data={routeData}/> */}
 
       <View style={styles.SearchInput}>
-        <TextInput style={styles.Searchtext} placeholder="Enter User ID" />
+        <TextInput style={styles.Searchtext} value={customerId}
+          onChangeText={setCustomerId} placeholder="Enter User ID" />
         <TouchableOpacity
           style={styles.SearchButton}
-          onPress={() => alert("Search")}
+          onPress={searchByCustomerId}
         >
           <Text style={styles.ButtonText}>Search</Text>
         </TouchableOpacity>
       </View>
 
+      {searchResult && (
+
+        <Product data={searchResult} />
+      )}
+
+      {/* {error1 && <Text style={styles.error}>{error1}</Text>} */}
+
       
       <FlatList
+       showsVerticalScrollIndicator={false}
+
+       
         data={Object.keys(routeData)}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
@@ -121,6 +176,7 @@ const Home = ({ navigation }) => {
         )}
       />
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -207,6 +263,13 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 5,
   },
+  load:{
+    alignItems:"center",
+    justifyContent:"center",
+    fontSize:20,
+    textAlign:"center",
+    marginTop:"70%",
+   },
 });
 
 export default Home;

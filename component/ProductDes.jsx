@@ -62,8 +62,8 @@ const ProductDes = ( {route}) => {
           console.log("Response data:", data);
           if (data.status === true) {
             console.log(data);
-            alert("Payment Successful");
-            navigation.navigate("Home1");
+            // alert("Payment Successful");
+            navigation.navigate("Green", {amount: paidAmount});
             
           }
         });
@@ -80,32 +80,31 @@ const ProductDes = ( {route}) => {
         <View style={styles.chitmaindata}>
           <View style={styles.chitdata}>
             <Text style={styles.datatext}>{product.loan_type}</Text>
-            <Text style={styles.Totaltext}>INR {product.amount}</Text>
+            <Text style={styles.Totaltext}>&#8377; {product.amount}</Text>
           </View>
           <View>
             <Text style={styles.Buttontext}>
               {/* {" "}
               {daysTillToday} / {product.ChitDuration}
                */}
-               next
             </Text>
           </View>
         </View>
 
         <View style={styles.chitbasedata}>
-          <Text style={styles.chitbasetext}>Paid : {product.paid_amount}</Text>
-          <Text style={styles.chitbasetext}>Unpaid : {product.un_paid_amount}</Text>
-          <Text style={styles.chitbasetext}>{product.per_day} per day</Text>
+          <Text style={styles.chitbasetext}>Paid : &#8377; {product.paid_amount}</Text>
+          <Text style={styles.chitbasetext}>Unpaid : &#8377;  {product.un_paid_amount}</Text>
+          <Text style={styles.chitbasetext}>&#8377; {product.per_day} / day</Text>
         </View>
       </View>
       <View style={styles.PaymentBoxHead}>
         <View style={styles.PaymentBox}>
           <Text style={styles.datatext}>Paid Amount</Text>
-          <Text style={styles.text}>INR {product.paid_amount}</Text>
+          <Text style={styles.text}>&#8377; {product.paid_amount}</Text>
         </View>
         <View style={styles.PaymentBox}>
           <Text style={styles.datatext}>Remaining Amount</Text>
-          <Text style={styles.text}>INR {product.un_paid_amount}</Text>
+          <Text style={styles.text}>&#8377; {product.un_paid_amount}</Text>
         </View>
       </View>
       <View style={styles.RouteText}>

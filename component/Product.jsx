@@ -31,9 +31,9 @@ export default function Product({ data }) {
         </View>
 
         <View style={styles.chitbasedata}>
-          <Text style={styles.chitbasetext}>Paid : {data.loan_details}</Text>
-          <Text style={styles.chitbasetext}>Unpaid : {data.un_paid_amount}</Text>
-          <Text style={styles.chitbasetext}>{data.per_day} per day</Text>
+          <Text style={styles.chitbasetext}>Paid : &#8377; {data.paid_amount}</Text>
+          <Text style={styles.chitbasetext}>Unpaid : &#8377; {data.un_paid_amount}</Text>
+          <Text style={styles.chitbasetext}>&#8377; {data.per_day} / day</Text>
         </View>
       </View>
     </TouchableOpacity>

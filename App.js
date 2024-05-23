@@ -16,6 +16,8 @@ import ShopAddress from "./component/ShopAddress";
 import AddDocument from "./component/AddDocument";
 import CheckUserLoggedIn from "./component/CheckUserLoggedIn";
 import LogoutButton from "./component/LogoutButton";
+import Green from "./component/Green";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -71,6 +73,7 @@ class HomeTabs extends PureComponent {
           component={AddCustomer}
           options={{ headerShown: false }}
         />
+        
       </Tab.Navigator>
     );
   }
@@ -102,12 +105,13 @@ export default function App() {
           component={HomeTabs}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="ProductDescription" component={ProductDes} />
+        <Stack.Screen name="ProductDescription" component={ProductDes}  />
         <Stack.Screen name="Password" component={Password} />
         <Stack.Screen name="Collection" component={Collection} />
         <Stack.Screen name="AddCustomer1" component={AddCustomer1} />
         <Stack.Screen name="ShopAddress" component={ShopAddress} />
         <Stack.Screen name="OtherDocuments" component={AddDocument} />
+       <Stack.Screen name="Green" component={Green}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
