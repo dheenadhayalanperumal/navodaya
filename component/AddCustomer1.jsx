@@ -14,10 +14,15 @@ import {
 import { RadioButton } from "react-native-paper";
 
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AddCustomer1 = () => {
   const navigation = useNavigation();
   const [isaddressSelected, setaddressSelection] = useState(false);
+
+
+
+  
   const [LocalAddress, setLocalAddress] = useState({
     doorno: "",
     street: "",
@@ -41,17 +46,70 @@ const AddCustomer1 = () => {
     setLocalAddress({ ...LocalAddress, [name]: value });
   };
 
-  const handleSave = () => {
+  const handleSave =  async () =>{
     // alert("Data Saved", LocalAddress);
-    console.log(PermanentAddress);
-    navigation.navigate("ShopAddress");
+    // console.log(PermanentAddress);
+    console.log(LocalAddress);
+    const isAnyFieldEmpty = Object.values(PermanentAddress).some(value => value === "");
+
+    const isAnyFieldEmpty2 = Object.values(LocalAddress).some(value => value === "");
+
+    if (isAnyFieldEmpty  || isAnyFieldEmpty2) {
+      // Display error message
+      alert("Please fill in all fields.");
+    }else{
+
+      try {
+        await AsyncStorage.setItem("local_Adress", JSON.stringify(LocalAddress));
+        await AsyncStorage.setItem("PermanentAddress", JSON.stringify(PermanentAddress));
+      
+     
+       navigation.navigate("ShopAddress");
+      
+      } catch (e) {
+        // saving error
+        console.error("Error saving data:", e);
+      }
+    }
+
+
+   
+
+
+    
     // console.log(formData);
   };
 
   const handlePrevious = () => {
     navigation.navigate("AddCustomer");
+
+
+    
   };
 
+
+  async function getFormData() {
+    try {
+      const value = await AsyncStorage.getItem('formData');
+      
+      if (value !== null) {
+        // We have data!!
+        console.log('Retrieved formData:', value);
+      } else {
+        console.log('No data found for formData');
+      }
+    } catch (e) {
+      // error reading value
+      console.error("Error retrieving data:", e);
+    }
+  }
+
+  // getFormData();
+
+
+
+
+  
   return (
     <View style={styles.container}>
       <ScrollView style={styles.Local}>
@@ -96,6 +154,7 @@ const AddCustomer1 = () => {
           <TextInput
             style={styles.input}
             value={LocalAddress.pincode}
+            keyboardType="numeric"
             onChangeText={(text) => handleChangeText("pincode", text)}
           />
 
@@ -163,6 +222,7 @@ const AddCustomer1 = () => {
           <Text style={styles.text}>Pincode</Text>
           <TextInput
             style={styles.input}
+            keyboardType="numeric"
             value={PermanentAddress.pincode}
             onChangeText={(text) => handleChangeText("pincode", text)}
             disabled={isaddressSelected}

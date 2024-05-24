@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import moment from "moment";
 import { useState } from "react";
@@ -71,6 +72,8 @@ const ProductDes = ( {route}) => {
   };
 
   return (
+    
+    
     <View style={styles.containerfull}>
       <View style={styles.container}>
         <View style={styles.header}>

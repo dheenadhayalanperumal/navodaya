@@ -14,7 +14,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "react-native-paper";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const ShopAddress = () => {
   const navigation = useNavigation();
   const [ShopAddress, setShopAddress] = useState({
@@ -38,21 +38,42 @@ const ShopAddress = () => {
     console.log(result);
   
     if (!result.cancelled && result.assets) {
-      setFormData((prevState) => ({
+      setShopAddress((prevState) => ({
         ...prevState,
-        photo: result.assets[0].uri,
+        shopPhoto: result.assets[0].uri,
       }));
     }
   };
 
   const handleChangeText = (name, value) => {
-    setLocalAddress({ ...LocalAddress, [name]: value });
+    setShopAddress({ ...ShopAddress, [name]: value });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // alert("Data Saved", ShopAddress);
-    console.log(ShopAddress);
-    navigation.navigate("OtherDocuments");
+
+    const isAnyFieldEmpty = Object.values(ShopAddress).some(value => value === "");
+    if (isAnyFieldEmpty) {
+      // Display error message
+      alert("Please fill in all fields.");
+    }else{
+    
+      try {
+        await AsyncStorage.setItem("ShopAddress", JSON.stringify(ShopAddress));
+  
+        // console.log(formData);
+        console.log(ShopAddress);
+        navigation.navigate("OtherDocuments");
+        // console.log(value);
+      } catch (e) {
+        // saving error
+        console.error("Error saving data:", e);
+      }
+    
+    }
+
+   
+   
     // console.log(formData);
   };
 
@@ -103,6 +124,7 @@ const ShopAddress = () => {
           <Text style={styles.text}>Pincode</Text>
           <TextInput
             style={styles.input}
+            keyboardType="numeric"
             value={ShopAddress.pincode}
             onChangeText={(text) => handleChangeText("pincode", text)}
           />
@@ -118,7 +140,7 @@ const ShopAddress = () => {
 
           <View style={styles.camera}>
             <Button
-              style={styles.camBut}
+              style={ ShopAddress.shopPhoto ? styles.camBut1 : styles.camBut}
               onPress={takePicture}
             >
               Take Picture
@@ -206,6 +228,11 @@ const styles = StyleSheet.create({
   },
   camBut: {
     backgroundColor: "#E6E8F0",
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  camBut1: {
+    backgroundColor: "rgba(16, 158, 56, 0.2)",
     alignItems: "center",
     borderRadius: 5,
   },

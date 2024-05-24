@@ -16,17 +16,24 @@ import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
+import { SelectList } from 'react-native-dropdown-select-list'
+
 const Logo = require("../Image/Logo1.png");
 
 const AddCustomer = () => {
   const navigation = useNavigation();
 
+  const [route_data, setroute_data] = useState({});
+  const [error, setError] = useState(null);
+
   const [formData, setFormData] = useState({
     customer: "",
     initial: "",
-    customerId: "",
+
+    route_no: "",
     TKTno: "",
     mobile: "",
+    alternate_number: "",
     chitGroup: "",
     profession: "",
     annualIncome: "",
@@ -35,11 +42,13 @@ const AddCustomer = () => {
     relatives: "",
     vehicle: "",
     house: "",
-    photo: null,
+    // property: "",
+    photo:'',
     fatherName: "",
     motherName: "",
     brotherName: "",
     sisterName: "",
+
   });
 
   const takePicture = async () => {
@@ -49,9 +58,9 @@ const AddCustomer = () => {
       // aspect: [4, 3],
       quality: 1,
     });
-  
+
     console.log(result);
-  
+
     if (!result.cancelled && result.assets) {
       setFormData((prevState) => ({
         ...prevState,
@@ -65,16 +74,67 @@ const AddCustomer = () => {
   };
 
   const handleSave = async () => {
-    try {
-      await AsyncStorage.setItem("formData", JSON.stringify(formData));
-      navigation.navigate("AddCustomer1");
-      console.log(formData);
-    } catch (e) {
-      // saving error
-      console.error("Error saving data:", e);
-    }
+
+    const isAnyFieldEmpty = Object.values(formData).some(value => value === "");
+
+    if (isAnyFieldEmpty) {
+      // Display error message
+      alert("Please fill in all fields.");
+    }else{
+
+      try {
+        await AsyncStorage.setItem("formData", JSON.stringify(formData));
+  
+        // console.log(formData);
+        navigation.navigate("AddCustomer1");
+        // console.log(value);
+      } catch (e) {
+        // saving error
+        console.error("Error saving data:", e);
+      }
+
+    } 
+
+   
   };
 
+  useEffect(() => {
+    const get_route_data = async () => {
+      const userId = await AsyncStorage.getItem("userId");
+      const token = await AsyncStorage.getItem("token");
+  
+      const formData = new FormData();
+      formData.append("staff_id", userId);
+      formData.append("token", token);
+  
+      fetch("https://nmwinternet.com/staging/demo/admin/Api/root_ids", {
+        method: "POST",
+        headers: { "Content-Type": "multipart/form-data" },
+        body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+        // setroute_data(data.route[0].route_id);
+        const fetchData= data.route.map((item) => (
+          {
+            key: item.root_id,
+            value: item.root_number,
+          }
+        )
+        );
+        console.log(fetchData);
+        setroute_data(fetchData);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setError(error);
+      }); 
+    }
+  
+    get_route_data();
+  }, []);
+
+ 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -104,12 +164,21 @@ const AddCustomer = () => {
                 value={formData.initial}
                 onChangeText={(text) => handleChangeText("initial", text)}
               />
-              <Text style={styles.text}>Customer ID</Text>
+              {/* <Text style={styles.text}>Customer ID</Text>
               <TextInput
                 style={styles.input}
                 value={formData.customerId}
                 onChangeText={(text) => handleChangeText("customerId", text)}
+              /> */}
+
+              <Text style={styles.text}>route ID</Text>
+              <SelectList
+                setSelected={(val) => handleChangeText('route_no', val)}
+                data={route_data}
+
               />
+
+
               <Text style={styles.text}>TKT No</Text>
               <TextInput
                 style={styles.input}
@@ -121,8 +190,18 @@ const AddCustomer = () => {
               <TextInput
                 style={styles.input}
                 value={formData.mobile}
+                keyboardType="numeric"
                 onChangeText={(text) => handleChangeText("mobile", text)}
               />
+
+<Text style={styles.text}>alternate number</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.alternate_number}
+                keyboardType="numeric"
+                onChangeText={(text) => handleChangeText("alternate_number", text)}
+              />
+
               <Text style={styles.text}>Chit Group</Text>
               <TextInput
                 style={styles.input}
@@ -132,21 +211,23 @@ const AddCustomer = () => {
               <Text style={styles.text}>Profession / Business Owned</Text>
               <TextInput
                 style={styles.input}
-                value={formData.proffession}
-                onChangeText={(text) => handleChangeText("proffession", text)}
+                value={formData.profession}
+                onChangeText={(text) => handleChangeText("profession", text)}
               />
 
               <Text style={styles.text}>Date of Birth</Text>
               <TextInput
                 style={styles.input}
                 value={formData.dateofBirth}
-                onChangeText={(text) => handleChangeText("dateofBirth", text)}
+                onChangeText={(text) => handleChangeText("dateOfBirth", text)}
               />
+
 
               <Text style={styles.text}>Annual Income</Text>
               <TextInput
                 style={styles.input}
                 value={formData.annualIncome}
+                keyboardType="numeric"
                 onChangeText={(text) => handleChangeText("annualIncome", text)}
               />
 
@@ -167,8 +248,8 @@ const AddCustomer = () => {
               <Text style={styles.text}>Vechicle Owned</Text>
               <TextInput
                 style={styles.input}
-                value={formData.vechicle}
-                onChangeText={(text) => handleChangeText("vechicle", text)}
+                value={formData.vehicle}
+                onChangeText={(text) => handleChangeText("vehicle", text)}
               />
 
               <Text style={styles.text}>House Owned</Text>
@@ -178,25 +259,25 @@ const AddCustomer = () => {
                 onChangeText={(text) => handleChangeText("house", text)}
               />
 
-              <Text style={styles.text}>
+              {/* <Text style={styles.text}>
                 Property Owned House/Flat/Land etc
               </Text>
               <TextInput
                 style={styles.input}
-                value={formData.house}
-                onChangeText={(text) => handleChangeText("house", text)}
-              />
+                value={formData.property}
+                onChangeText={(text) => handleChangeText("property", text)}
+              /> */}
 
-              <Text style={styles.text}>Customer Photo</Text>
+              <Text style={ styles.text}>Customer Photo</Text>
 
               <View style={styles.camera}>
-            <Button
-              style={styles.camBut}
-              onPress={takePicture}
-            >
-              Take Picture
-            </Button>
-          </View>
+                <Button
+                  style={formData.photo ? styles.camBut1 :  styles.camBut}
+                  onPress={takePicture}
+                >
+                  Take Picture
+                </Button>
+              </View>
 
               <Text style={styles.text}>Father's Name</Text>
               <TextInput
@@ -215,8 +296,8 @@ const AddCustomer = () => {
               <Text style={styles.text}>Brother's Name</Text>
               <TextInput
                 style={styles.input}
-                value={formData.brothername}
-                onChangeText={(text) => handleChangeText("brothername", text)}
+                value={formData.brotherName}
+                onChangeText={(text) => handleChangeText("brotherName", text)}
               />
 
               <Text style={styles.text}>Sister's Name</Text>
@@ -319,7 +400,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#E6E8F0",
     alignItems: "center",
     borderRadius: 5,
-    
+
+  },
+  camBut1: {
+    backgroundColor:"rgba(16, 158, 56, 0.2)",
+    alignItems: "center",
+    borderRadius: 5,
+
   },
 });
 

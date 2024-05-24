@@ -17,6 +17,7 @@ import AddDocument from "./component/AddDocument";
 import CheckUserLoggedIn from "./component/CheckUserLoggedIn";
 import LogoutButton from "./component/LogoutButton";
 import Green from "./component/Green";
+import CustomerGreen from "./component/CustomerGreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -84,7 +85,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerRight: () => <LogoutButton />,
+          // headerRight: () => <LogoutButton />,
           headerStyle: { backgroundColor: "#A20A3A" },
           headerTintColor: "#FFFFFF",
         }}
@@ -106,12 +107,15 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="ProductDescription" component={ProductDes}  />
-        <Stack.Screen name="Password" component={Password} />
+        <Stack.Screen name="Password" component={Password}   options={{
+            headerRight: () => <LogoutButton />
+          }} />
         <Stack.Screen name="Collection" component={Collection} />
         <Stack.Screen name="AddCustomer1" component={AddCustomer1} />
         <Stack.Screen name="ShopAddress" component={ShopAddress} />
         <Stack.Screen name="OtherDocuments" component={AddDocument} />
        <Stack.Screen name="Green" component={Green}/>
+       <Stack.Screen name="Succuss" component={CustomerGreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
