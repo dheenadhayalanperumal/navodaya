@@ -65,7 +65,7 @@ export default function Login() {
         } else {
           // Display an alert if the username or password is incorrect
           alert(
-            "invailed token."
+            "invailed username and password."
           );
         }
       })

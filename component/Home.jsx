@@ -52,7 +52,7 @@ const Home = ({ navigation }) => {
         }
         // data.route ? setRouteData(data.route.route_id) : setRouteData(null); 
         // setRouteData(data.route.route_id);
-        // console.log("Data:", routeData);
+         console.log("Data:", routeData);
         setLoading(false);
       } catch (error) {
         console.error("Error:", error);

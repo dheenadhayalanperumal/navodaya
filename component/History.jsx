@@ -55,7 +55,7 @@ useFocusEffect(
         setData(data.loan_details);
         setCollect(data.collected);
         setTarget(data.target_amount);
-        // console.log("Data:", data);
+        //  console.log("Data:", data);
         setLoading(false);
       } catch (error) {
         console.error("Error:", error);

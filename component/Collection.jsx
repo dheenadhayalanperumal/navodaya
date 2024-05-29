@@ -25,7 +25,7 @@ export default function Collection({ data }) {
             <Text style={styles.Totaltext}>&#8377; {data.collected_amt}</Text>
           </View>
           <View style={styles.collectButton}>
-            <TouchableOpacity onPress={handlePress}>
+            <TouchableOpacity>
               <Text style={styles.Buttontext}>Collected</Text>
             </TouchableOpacity>
           </View>
