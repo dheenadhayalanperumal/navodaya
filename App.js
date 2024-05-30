@@ -106,7 +106,7 @@ export default function App() {
           component={HomeTabs}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="ProductDescription" component={ProductDes}  />
+        <Stack.Screen name="AmountCollect" component={ProductDes}  />
         <Stack.Screen name="Password" component={Password}   options={{
             headerRight: () => <LogoutButton />
           }} />

@@ -171,12 +171,15 @@ const AddCustomer = () => {
                 onChangeText={(text) => handleChangeText("customerId", text)}
               /> */}
 
-              <Text style={styles.text}>route ID</Text>
-              <SelectList
+              <Text style={styles.text}>Route ID</Text>
+              <View style={styles.dropdown}>
+              <SelectList 
+              dropdownStyles={{ width: '100%'}}
                 setSelected={(val) => handleChangeText('route_no', val)}
                 data={route_data}
 
               />
+              </View>
 
 
               <Text style={styles.text}>TKT No</Text>
@@ -237,6 +240,8 @@ const AddCustomer = () => {
                 value={formData.maritalStatus}
                 onChangeText={(text) => handleChangeText("maritalStatus", text)}
               />
+
+              
 
               <Text style={styles.text}>Relatives name & address</Text>
               <TextInput
@@ -395,6 +400,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E6E8F0",
     borderRadius: 5,
+    marginBottom: 20,
   },
   camBut: {
     backgroundColor: "#E6E8F0",
@@ -408,6 +414,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
 
   },
+  dropdown: {
+    marginBottom: 20,
+  },
+
 });
 
 export default AddCustomer;

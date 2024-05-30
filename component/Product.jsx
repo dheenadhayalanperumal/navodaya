@@ -7,7 +7,7 @@ export default function Product({ data }) {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate("ProductDescription", { product: data });
+    navigation.navigate("AmountCollect", { product: data });
   };
 
   // console.log(data);
