@@ -43,13 +43,28 @@ const AddCustomer1 = () => {
   });
 
   const handleChangeText = (name, value) => {
+    if ((name === 'pincode') && value.length > 6) {
+      alert('Pincode should be 6 digits');
+      return;
+    }
     setLocalAddress({ ...LocalAddress, [name]: value });
   };
+
+  const handleChangeText1 = (name, value) => {
+    if ((name === 'pincode') && value.length > 6) {
+      alert('Pincode should be 6 digits');
+      return;
+    }
+    setPermanentAddress({ ...PermanentAddress, [name]: value });
+  };
+
+
 
   const handleSave =  async () =>{
     // alert("Data Saved", LocalAddress);
     // console.log(PermanentAddress);
     console.log(LocalAddress);
+    console.log(PermanentAddress)
     const isAnyFieldEmpty = Object.values(PermanentAddress).some(value => value === "");
 
     const isAnyFieldEmpty2 = Object.values(LocalAddress).some(value => value === "");
@@ -186,7 +201,7 @@ const AddCustomer1 = () => {
           <TextInput
             style={styles.input}
             value={PermanentAddress.doorno}
-            onChangeText={(text) => handleChangeText("doorno", text)}
+            onChangeText={(text) => handleChangeText1("doorno", text)}
             disabled={isaddressSelected}
           />
 
@@ -194,21 +209,21 @@ const AddCustomer1 = () => {
           <TextInput
             style={styles.input}
             value={PermanentAddress.street}
-            onChangeText={(text) => handleChangeText("street", text)}
+            onChangeText={(text) => handleChangeText1("street", text)}
             disabled={isaddressSelected}
           />
           <Text style={styles.text}>Land Mark</Text>
           <TextInput
             style={styles.input}
             value={PermanentAddress.landmark}
-            onChangeText={(text) => handleChangeText("landmark", text)}
+            onChangeText={(text) => handleChangeText1("landmark", text)}
             disabled={isaddressSelected}
           />
           <Text style={styles.text}>Area</Text>
           <TextInput
             style={styles.input}
             value={PermanentAddress.area}
-            onChangeText={(text) => handleChangeText("area", text)}
+            onChangeText={(text) => handleChangeText1("area", text)}
             disabled={isaddressSelected}
           />
 
@@ -216,7 +231,7 @@ const AddCustomer1 = () => {
           <TextInput
             style={styles.input}
             value={PermanentAddress.city}
-            onChangeText={(text) => handleChangeText("city", text)}
+            onChangeText={(text) => handleChangeText1("city", text)}
             disabled={isaddressSelected}
           />
           <Text style={styles.text}>Pincode</Text>
@@ -224,7 +239,7 @@ const AddCustomer1 = () => {
             style={styles.input}
             keyboardType="numeric"
             value={PermanentAddress.pincode}
-            onChangeText={(text) => handleChangeText("pincode", text)}
+            onChangeText={(text) => handleChangeText1("pincode", text)}
             disabled={isaddressSelected}
           />
 
@@ -232,7 +247,7 @@ const AddCustomer1 = () => {
           <TextInput
             style={styles.input}
             value={PermanentAddress.state}
-            onChangeText={(text) => handleChangeText("state", text)}
+            onChangeText={(text) => handleChangeText1("state", text)}
             disabled={isaddressSelected}
           />
         </View>

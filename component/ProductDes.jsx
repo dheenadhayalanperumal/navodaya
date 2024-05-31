@@ -54,7 +54,6 @@ const ProductDes = ({ route }) => {
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
-            console.log(Error);
           }
           return response.json();
         })
@@ -64,6 +63,9 @@ const ProductDes = ({ route }) => {
             console.log(data);
             navigation.navigate("Green", { amount: paidAmount });
           }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
         });
     }
   };
@@ -134,19 +136,14 @@ const ProductDes = ({ route }) => {
           />
         </View>
         <View style={styles.Collect}>
-          <View>
-            {isUPISelected && <Image style={styles.Image} source={QR} />}
-          </View>
+          {isUPISelected && <Image style={styles.Image} source={QR} />}
           <View style={styles.SearchInput}>
             <TextInput
               style={styles.Searchtext}
               placeholder="Enter the Amount"
               keyboardType="numeric"
-              onChangeText={(value) => {
-                setPaidAmount(value);
-              }}
+              onChangeText={(value) => setPaidAmount(value)}
             />
-
             <TouchableOpacity style={styles.SearchButton} onPress={UserPaid}>
               <Text style={styles.ButtonText}>Collect</Text>
             </TouchableOpacity>
@@ -161,12 +158,9 @@ const styles = StyleSheet.create({
   containerfull: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-start",
   },
   scrollViewContent: {
     flexGrow: 1,
-    justifyContent: "flex-start",
     alignItems: "center",
   },
   CashHeading: {
@@ -190,7 +184,7 @@ const styles = StyleSheet.create({
   container: {
     width: 328,
     height: 156,
-    borderColor: "gray",
+    borderColor: "#E6E8F0",
     borderWidth: 1,
     backgroundColor: "white",
     justifyContent: "center",
@@ -209,7 +203,7 @@ const styles = StyleSheet.create({
   Searchtext: {
     height: 41,
     width: 233,
-    borderColor: "gray",
+    borderColor: "#E6E8F0",
     borderWidth: 1,
     padding: 10,
     borderRadius: 5,
@@ -306,6 +300,7 @@ const styles = StyleSheet.create({
   Collect: {
     alignItems: "center",
     justifyContent: "center",
+    marginBottom:100,
   },
   Buttontext: {
     color: "#A20A3A",

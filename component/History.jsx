@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import Collection from "./Collection";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -71,7 +72,9 @@ useFocusEffect(
   if (loading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.load} >Loading...</Text>
+        <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
       </View>
     );
   }
@@ -264,6 +267,11 @@ const styles = StyleSheet.create({
   textAlign:"center",
   marginTop:"70%",
  },
+ loadingContainer: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
 });
 
 export default History;

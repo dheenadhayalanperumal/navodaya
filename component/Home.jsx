@@ -8,11 +8,12 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
-  TouchableWithoutFeedback,
+  TouchableWithoutFeedback,ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Product from "./Product";
 import { useFocusEffect } from "@react-navigation/native";
+
 
 
 const Logo = require("../Image/Logo1.png");
@@ -99,7 +100,9 @@ const Home = ({ navigation }) => {
   if (loading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.load}>Loading...</Text>
+        <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
       </View>
     );
   }
@@ -222,7 +225,7 @@ const styles = StyleSheet.create({
   Searchtext: {
     height: 41,
     width: 233,
-    borderColor: "gray",
+    borderColor: "#E6E8F0",
     borderWidth: 1,
     padding: 10,
     borderRadius: 5,
@@ -243,18 +246,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   RouteText: {
-    width: "100%",
+    width: "94%",
     height: 43,
     borderRadius: 5,
     backgroundColor: "#F4F6F9",
-    alignItems: "flex-start",
+    alignItems: "left",
     justifyContent: "center",
     marginTop: 12,
-    paddingLeft: 32,
+    paddingLeft: 8,
+    marginLeft:10,
+    marginRight:10,
   },
   text1: {
     fontSize: 20,
     color: "#A20A3A",
+    textAlign:"left",
   },
   entryContainer: {
     marginVertical: 10,
@@ -270,6 +276,12 @@ const styles = StyleSheet.create({
     textAlign:"center",
     marginTop:"70%",
    },
+
+   loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default Home;

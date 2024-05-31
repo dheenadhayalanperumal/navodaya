@@ -4,12 +4,11 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   TextInput,
-  Keyboard,
   ScrollView,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
@@ -125,6 +124,7 @@ const AddDocument = () => {
           converted.relatives
         );
         formData.append("vehicies_owned", converted.vehicle);
+        formData.append("property_info", converted.houseOwned);
         formData.append("father_name", converted.fatherName);
         formData.append("mother_name", converted.motherName);
         formData.append("brother_name", converted.brotherName);
@@ -213,6 +213,8 @@ const AddDocument = () => {
           type: "image/jpeg",
         });
 
+console.log(formData);
+
         setLoading(true);
         
         fetch ("https://nmwinternet.com/staging/demo/admin/Api/add_customer", {
@@ -250,8 +252,8 @@ const AddDocument = () => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.load}>Loading...</Text>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
   }
@@ -477,6 +479,11 @@ const styles = StyleSheet.create({
     textAlign:"center",
     marginTop:"70%",
    },
+   loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default AddDocument;

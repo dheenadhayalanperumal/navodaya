@@ -21,7 +21,7 @@ export default function Product({ data }) {
         <View style={styles.chitmaindata}>
           <View style={styles.chitdata}>
             <Text style={styles.datatext}>{data.loan_type}</Text>
-            <Text style={styles.Totaltext}>INR {data.amount}</Text>
+            <Text style={styles.Totaltext}>&#8377; {data.amount}</Text>
           </View>
           <View style={styles.collectButton}>
             <TouchableOpacity onPress={handlePress}>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   container: {
     width: 328, // Increase width
     height: 156, // Increase height
-    borderColor: "gray",
+    borderColor: "#E6E8F0",
     borderWidth: 1,
     backgroundColor: "white",
     // justifyContent: 'center',

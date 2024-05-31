@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   container: {
     width: 328, // Increase width
     height: 156, // Increase height
-    borderColor: "gray",
+    borderColor: "#E6E8F0",
     borderWidth: 1,
     backgroundColor: "white",
     // justifyContent: 'center',
