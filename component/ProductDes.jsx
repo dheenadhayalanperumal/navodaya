@@ -61,7 +61,7 @@ const ProductDes = ({ route }) => {
           console.log("Response data:", data);
           if (data.status === true) {
             console.log(data);
-            navigation.navigate("Green", { amount: paidAmount });
+            navigation.navigate("Payment", { amount: paidAmount });
           }
         })
         .catch((error) => {
